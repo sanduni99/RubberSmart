@@ -15,7 +15,7 @@ print("TRAINING PRICE PREDICTION MODEL")
 print("="*60)
 
 # Load data
-print("\n📊 Loading price data...")
+print("\n Loading price data...")
 df = pd.read_sql("SELECT * FROM prices ORDER BY \"Year\", id", engine)
 print(f"   Total records: {len(df)}")
 
@@ -43,12 +43,12 @@ print(f"   Std deviation: {y.std():.2f} LKR")
 train_size = int(len(y) * 0.8)
 train, test = y[:train_size], y[train_size:]
 
-print(f"\n✂️ Train/Test split:")
+print(f"\n Train/Test split:")
 print(f"   Training: {len(train)} records")
 print(f"   Testing: {len(test)} records")
 
 # Train SARIMA model
-print("\n🤖 Training SARIMA model...")
+print("\n Training SARIMA model...")
 print("   Using seasonal parameters...")
 
 try:
@@ -67,7 +67,7 @@ except Exception as e:
     best_order = (2, 1, 2)
 
 # Evaluate
-print("\n📈 Evaluating model...")
+print("\n Evaluating model...")
 predictions = best_model.forecast(steps=len(test))
 
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
@@ -77,7 +77,7 @@ rmse = np.sqrt(mean_squared_error(test, predictions))
 r2 = r2_score(test, predictions)
 mape = np.mean(np.abs((test - predictions) / test)) * 100
 
-print(f"\n📊 Model Performance:")
+print(f"\n Model Performance:")
 print(f"   MAE: {mae:.2f} LKR")
 print(f"   RMSE: {rmse:.2f} LKR")
 print(f"   R² Score: {r2:.4f}")
@@ -85,13 +85,13 @@ print(f"   MAPE: {mape:.2f}%")
 print(f"   Accuracy: {100 - mape:.2f}%")
 
 # Check variation
-print(f"\n🔍 Prediction Variation:")
+print(f"\n Prediction Variation:")
 print(f"   Min: {predictions.min():.2f} LKR")
 print(f"   Max: {predictions.max():.2f} LKR")
 print(f"   Std: {predictions.std():.2f} LKR")
 
 # Save model
-print("\n💾 Saving model...")
+print("\n Saving model...")
 save_dir = os.path.join(os.path.dirname(__file__), '..')
 model_path = os.path.join(save_dir, 'price_prediction_model.pkl')
 info_path = os.path.join(save_dir, 'price_model_info.pkl')
@@ -112,7 +112,7 @@ model_info = {
 with open(info_path, 'wb') as f:
     pickle.dump(model_info, f)
 
-print(f"   ✅ Model saved: {model_path}")
+print(f" Model saved: {model_path}")
 
 # Predict next 12 months
 print("\n🔮 Predicting next 12 months...")
@@ -124,12 +124,12 @@ if future_predictions.std() < 5:
     seasonal = np.sin(np.linspace(0, 2*np.pi, 12)) * 10
     future_predictions = future_predictions + seasonal
 
-print("\n📅 Price Predictions:")
+print("\n Price Predictions:")
 last_date = df.index.max()
 for i, pred in enumerate(future_predictions, 1):
     future_date = last_date + pd.DateOffset(months=i)
     print(f"   {future_date.strftime('%B %Y')}: {pred:.2f} LKR/L")
 
 print("\n" + "="*60)
-print("✅ PRICE MODEL TRAINING COMPLETE!")
+print(" PRICE MODEL TRAINING COMPLETE!")
 print("="*60)
