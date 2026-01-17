@@ -1,24 +1,62 @@
+// src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// Layouts
+import WebsiteLayout from './layouts/WebsiteLayout';
+import DashboardLayout from './layouts/DashboardLayout';
+
+// Website pages
+import Home from './pages/website/Home';
+import About from './pages/website/About';
+import Features from './pages/website/Features';
+
+// Auth pages
+import Login from './pages/auth/login';
+import Signup from './pages/auth/signup';
+
+// Dashboard pages
+import Dashboard from './pages/dashboard/Dashboard';
+import YieldPrediction from './pages/dashboard/YieldPrediction';
+import PriceIntelligence from './pages/dashboard/PriceIntelligence';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Navbar />
-        <div className="min-h-screen bg-gray-50">
-          <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold text-gray-800">
-              Welcome to RubberSmart
-            </h1>
-            <p className="text-gray-600 mt-2">
-              AI-Powered Rubber Yield Prediction
-            </p>
-          </div>
-        </div>
-      </div>
-    </Router>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Website Routes */}
+          <Route path="/" element={<WebsiteLayout />}>
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="features" element={<Features />} />
+          </Route>
+
+          {/* Auth Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          {/* Protected Dashboard Routes */}
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="yield-prediction" element={<YieldPrediction />} />
+            <Route path="price-intelligence" element={<PriceIntelligence />} />
+          </Route>
+
+          {/* Catch all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

@@ -1,40 +1,66 @@
-import axios from 'axios';
+// frontend/src/services/api.js
+const API_BASE_URL = 'http://localhost:8000';
 
-const API_URL = 'http://localhost:8000/api';
-
-// Production endpoints
-export const getProduction = async () => {
-  const response = await axios.get(`${API_URL}/production`);
-  return response.data;
+const getAuthHeaders = () => {
+  const token = localStorage.getItem('token');
+  return {
+    'Content-Type': 'application/json',
+    ...(token && { 'Authorization': `Bearer ${token}` })
+  };
 };
 
-export const getPrices = async () => {
-  const response = await axios.get(`${API_URL}/prices`);
-  return response.data;
+const fetchAPI = async (endpoint, options = {}) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        ...getAuthHeaders(),
+        ...options.headers,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
 };
 
-export const getStats = async () => {
-  const response = await axios.get(`${API_URL}/stats`);
-  return response.data;
+export const api = {
+  // Production endpoints
+  production: {
+    getAll: (skip = 0, limit = 100) => 
+      fetchAPI(`/api/production?skip=${skip}&limit=${limit}`),
+    getLatest: () => 
+      fetchAPI('/api/production/latest'),
+  },
+
+  // Price endpoints
+  prices: {
+    getAll: (skip = 0, limit = 100) => 
+      fetchAPI(`/api/prices?skip=${skip}&limit=${limit}`),
+    getLatest: () => 
+      fetchAPI('/api/prices/latest'),
+  },
+
+  // Stats endpoints
+  stats: {
+    get: () => 
+      fetchAPI('/api/stats'),
+  },
+
+  // Prediction endpoints - UPDATED to match your backend
+  predictions: {
+    predictYield: (months = 6) => 
+      fetchAPI(`/api/predict/yield?months=${months}`),
+    predictPrice: (months = 6) => 
+      fetchAPI(`/api/predict/price?months=${months}`),
+  },
 };
 
-export const getYearlySummary = async () => {
-  const response = await axios.get(`${API_URL}/production/yearly-summary`);
-  return response.data;
-};
-
-export const getYearlyPriceAvg = async () => {
-  const response = await axios.get(`${API_URL}/prices/yearly-avg`);
-  return response.data;
-};
-
-// Prediction endpoints
-export const predictYield = async (months = 6) => {
-  const response = await axios.get(`${API_URL}/predict/yield?months=${months}`);
-  return response.data;
-};
-
-export const predictPrice = async (months = 6) => {
-  const response = await axios.get(`${API_URL}/predict/price?months=${months}`);
-  return response.data;
-};
+export default api;
