@@ -83,9 +83,11 @@ export const api = {
   // Prediction endpoints - UPDATED to match your backend
   predictions: {
     predictYield: (months = 6) => 
-      fetchAPI(`/api/predict/yield?months=${months}`),
+      fetchAPI(`/api/predictions/yield?months=${months}`),
     predictPrice: (months = 6) => 
-      fetchAPI(`/api/predict/price?months=${months}`),
+      fetchAPI(`/api/predictions/price?months=${months}`),
+    predictPrice: (months = 6) => 
+      fetchAPI(`/api/predictions/yield/by-type?months=${months}`),
   },
 };
 

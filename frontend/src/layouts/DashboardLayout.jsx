@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom'
 import AppSidebar from '../components/dashboard/AppSidebar'
 import AppHeader from '../components/dashboard/AppHeader'
 import { CContainer } from '@coreui/react'
+import './dashboard.css'
 
 
 const DashboardLayout = () => {

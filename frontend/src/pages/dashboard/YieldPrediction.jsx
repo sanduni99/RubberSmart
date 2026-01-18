@@ -1,10 +1,11 @@
 // frontend/src/pages/dashboard/YieldPrediction.jsx
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
 
 const YieldPrediction = () => {
   const [months, setMonths] = useState(6);
   const [predictions, setPredictions] = useState(null);
+  const [typeBreakdown, setTypeBreakdown] = useState(null);
+  const [viewMode, setViewMode] = useState('total'); // 'total' or 'breakdown'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,9 +19,21 @@ const YieldPrediction = () => {
     setError(null);
 
     try {
-      const result = await api.predictions.predictYield(months);
-      console.log('Yield prediction result:', result);
-      setPredictions(result);
+      // Fetch both total and breakdown predictions
+      const [totalResponse, breakdownResponse] = await Promise.all([
+        fetch(`http://localhost:8000/api/predictions/yield?months=${months}`),
+        fetch(`http://localhost:8000/api/predictions/yield/by-type?months=${months}`)
+      ]);
+
+      if (!totalResponse.ok || !breakdownResponse.ok) {
+        throw new Error('Failed to fetch predictions');
+      }
+
+      const totalData = await totalResponse.json();
+      const breakdownData = await breakdownResponse.json();
+
+      setPredictions(totalData);
+      setTypeBreakdown(breakdownData);
     } catch (err) {
       console.error('Prediction error:', err);
       setError(err.message || 'Failed to get predictions. Please try again.');
@@ -33,13 +46,23 @@ const YieldPrediction = () => {
     setMonths(newMonths);
   };
 
+  const getReliabilityColor = (reliability) => {
+    switch(reliability) {
+      case 'High': return '#10b981';
+      case 'Good': return '#3b82f6';
+      case 'Moderate': return '#f59e0b';
+      case 'Low': return '#ef4444';
+      default: return '#6b7280';
+    }
+  };
+
   return (
-    <div style={{ padding: '2rem' }}>
+    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
       <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
         Yield Prediction 🌱
       </h1>
       <p style={{ color: '#666', marginBottom: '2rem' }}>
-        AI-powered forecast of rubber production for the upcoming months
+        AI-powered forecast of rubber production by type
       </p>
 
       {error && (
@@ -54,6 +77,48 @@ const YieldPrediction = () => {
           ⚠️ {error}
         </div>
       )}
+
+      {/* View Mode Toggle */}
+      <div style={{ 
+        background: 'white', 
+        padding: '1rem', 
+        borderRadius: '0.75rem',
+        marginBottom: '1.5rem',
+        display: 'flex',
+        gap: '0.5rem',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+      }}>
+        <button
+          onClick={() => setViewMode('total')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            background: viewMode === 'total' ? '#10b981' : '#f3f4f6',
+            color: viewMode === 'total' ? 'white' : '#374151',
+            border: 'none',
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s'
+          }}
+        >
+          📊 Total Production
+        </button>
+        <button
+          onClick={() => setViewMode('breakdown')}
+          style={{
+            padding: '0.75rem 1.5rem',
+            background: viewMode === 'breakdown' ? '#10b981' : '#f3f4f6',
+            color: viewMode === 'breakdown' ? 'white' : '#374151',
+            border: 'none',
+            borderRadius: '0.5rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.2s'
+          }}
+        >
+          🔍 By Rubber Type
+        </button>
+      </div>
 
       {/* Forecast Period Selector */}
       <div style={{ 
@@ -73,6 +138,7 @@ const YieldPrediction = () => {
             <button
               key={m}
               onClick={() => handleMonthChange(m)}
+              disabled={loading}
               style={{
                 padding: '0.75rem 1.5rem',
                 background: months === m ? '#10b981' : 'white',
@@ -80,8 +146,9 @@ const YieldPrediction = () => {
                 border: months === m ? 'none' : '2px solid #e5e7eb',
                 borderRadius: '0.5rem',
                 fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                opacity: loading ? 0.6 : 1
               }}
             >
               {m} months
@@ -108,7 +175,7 @@ const YieldPrediction = () => {
       </div>
 
       {/* Model Info */}
-      {predictions?.model_info && (
+      {predictions?.model_info && viewMode === 'total' && (
         <div style={{ 
           background: '#eff6ff', 
           padding: '1.5rem', 
@@ -121,150 +188,305 @@ const YieldPrediction = () => {
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <div>
-              <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Accuracy</p>
+              <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>R² Score</p>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e40af' }}>
-                {predictions.model_info.accuracy}
+                {predictions.model_info.r2_score}
+              </p>
+              <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Excellent fit</p>
+            </div>
+            <div>
+              <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>Average Error</p>
+              <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e40af' }}>
+                {predictions.model_info.mae}
+              </p>
+              <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>Mean Absolute Error</p>
+            </div>
+          </div>
+          
+          {predictions.market_context && (
+            <div style={{ 
+              marginTop: '1rem', 
+              padding: '1rem', 
+              background: 'white', 
+              borderRadius: '0.5rem',
+              borderLeft: '4px solid #3b82f6'
+            }}>
+              <p style={{ fontSize: '0.875rem', color: '#374151', fontWeight: '500' }}>
+                📈 {predictions.market_context.trend}
+              </p>
+              <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
+                {predictions.market_context.note}
               </p>
             </div>
-            {predictions.model_info.mae && (
-              <div>
-                <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
-                  Mean Absolute Error
-                </p>
-                <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e40af' }}>
-                  {predictions.model_info.mae}
-                </p>
-              </div>
-            )}
-          </div>
+          )}
         </div>
       )}
 
-      {/* Predictions Table */}
-      {predictions?.predictions && predictions.predictions.length > 0 ? (
+      {/* Content Based on View Mode */}
+      {loading ? (
         <div style={{ 
           background: 'white', 
-          borderRadius: '0.75rem', 
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-          border: '1px solid #e5e7eb',
-          overflow: 'hidden'
+          padding: '4rem 2rem', 
+          borderRadius: '0.75rem',
+          textAlign: 'center',
+          color: '#6b7280'
         }}>
-          <div style={{ padding: '1.5rem', borderBottom: '1px solid #e5e7eb' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
-              Predicted Yield for Next {months} Months
-            </h3>
-          </div>
-          
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-              <thead>
-                <tr style={{ background: '#f9fafb', borderBottom: '2px solid #e5e7eb' }}>
-                  <th style={{ padding: '1rem', textAlign: 'left', fontWeight: '600', color: '#374151' }}>
-                    Period
-                  </th>
-                  <th style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: '#374151' }}>
-                    Predicted Yield (MT)
-                  </th>
-                  <th style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: '#374151' }}>
-                    Confidence
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {predictions.predictions.map((pred, index) => (
-                  <tr 
-                    key={index} 
-                    style={{ 
-                      borderBottom: '1px solid #f3f4f6',
-                      background: index % 2 === 0 ? 'white' : '#fafafa'
-                    }}
-                  >
-                    <td style={{ padding: '1rem' }}>
-                      <div>
-                        <p style={{ fontWeight: '600', marginBottom: '0.25rem' }}>
-                          {pred.month} {pred.year}
-                        </p>
-                      </div>
-                    </td>
-                    <td style={{ padding: '1rem', textAlign: 'right' }}>
-                      <span style={{ 
-                        fontSize: '1.125rem', 
-                        fontWeight: 'bold', 
-                        color: '#10b981' 
-                      }}>
-                        {pred.predicted_yield_mt?.toLocaleString()}
-                      </span>
-                    </td>
-                    <td style={{ padding: '1rem', textAlign: 'right' }}>
-                      <span style={{ 
-                        padding: '0.25rem 0.75rem',
-                        background: '#dcfce7',
-                        color: '#166534',
-                        borderRadius: '999px',
-                        fontSize: '0.875rem',
-                        fontWeight: '500'
-                      }}>
-                        {pred.confidence}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Summary Stats */}
-          <div style={{ 
-            padding: '1.5rem', 
-            background: '#f9fafb', 
-            borderTop: '1px solid #e5e7eb',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '1rem'
-          }}>
-            <div>
-              <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
-                Average Predicted Yield
-              </p>
-              <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937' }}>
-                {(predictions.predictions.reduce((sum, p) => sum + p.predicted_yield_mt, 0) / 
-                  predictions.predictions.length).toFixed(2)} MT
-              </p>
-            </div>
-            <div>
-              <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
-                Total Predicted Yield
-              </p>
-              <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937' }}>
-                {predictions.predictions.reduce((sum, p) => sum + p.predicted_yield_mt, 0)
-                  .toFixed(2)} MT
-              </p>
-            </div>
-            <div>
-              <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
-                Highest Month
-              </p>
-              <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937' }}>
-                {predictions.predictions.reduce((max, p) => 
-                  p.predicted_yield_mt > max.predicted_yield_mt ? p : max
-                ).month}
-              </p>
-            </div>
-          </div>
+          <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>⏳</p>
+          <p>Generating predictions...</p>
         </div>
       ) : (
-        !loading && (
-          <div style={{ 
-            background: 'white', 
-            padding: '4rem 2rem', 
-            borderRadius: '0.75rem',
-            textAlign: 'center',
-            color: '#6b7280'
-          }}>
-            <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>📊</p>
-            <p>Click "Generate Forecast" to see yield predictions</p>
+        <>
+          {viewMode === 'total' && predictions?.predictions && (
+            <TotalProductionView predictions={predictions} />
+          )}
+          
+          {viewMode === 'breakdown' && typeBreakdown?.predictions && (
+            <TypeBreakdownView 
+              typeBreakdown={typeBreakdown} 
+              getReliabilityColor={getReliabilityColor}
+            />
+          )}
+        </>
+      )}
+    </div>
+  );
+};
+
+// Component for Total Production View
+const TotalProductionView = ({ predictions }) => {
+  const avgYield = predictions.predictions.length > 0
+    ? (predictions.predictions.reduce((sum, p) => sum + (p.predicted_yield_mt || 0), 0) / predictions.predictions.length).toFixed(2)
+    : 0;
+
+  const totalYield = predictions.predictions.length > 0
+    ? predictions.predictions.reduce((sum, p) => sum + (p.predicted_yield_mt || 0), 0).toFixed(2)
+    : 0;
+
+  const highestMonth = predictions.predictions.length > 0
+    ? predictions.predictions.reduce((max, p) => 
+        (p.predicted_yield_mt || 0) > (max.predicted_yield_mt || 0) ? p : max
+      )
+    : null;
+
+  return (
+    <div style={{ 
+      background: 'white', 
+      borderRadius: '0.75rem', 
+      boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      border: '1px solid #e5e7eb',
+      overflow: 'hidden'
+    }}>
+      <div style={{ padding: '1.5rem', borderBottom: '1px solid #e5e7eb' }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+          Total Production Forecast
+        </h3>
+      </div>
+      
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr style={{ background: '#f9fafb', borderBottom: '2px solid #e5e7eb' }}>
+              <th style={{ padding: '1rem', textAlign: 'left', fontWeight: '600', color: '#374151' }}>
+                Period
+              </th>
+              <th style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: '#374151' }}>
+                Predicted Yield (MT)
+              </th>
+              <th style={{ padding: '1rem', textAlign: 'right', fontWeight: '600', color: '#374151' }}>
+                Confidence
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {predictions.predictions.map((pred, index) => (
+              <tr 
+                key={index} 
+                style={{ 
+                  borderBottom: '1px solid #f3f4f6',
+                  background: index % 2 === 0 ? 'white' : '#fafafa'
+                }}
+              >
+                <td style={{ padding: '1rem' }}>
+                  <p style={{ fontWeight: '600', marginBottom: '0.25rem' }}>
+                    {pred.month} {pred.year}
+                  </p>
+                </td>
+                <td style={{ padding: '1rem', textAlign: 'right' }}>
+                  <span style={{ 
+                    fontSize: '1.125rem', 
+                    fontWeight: 'bold', 
+                    color: '#10b981' 
+                  }}>
+                    {pred.predicted_yield_mt?.toLocaleString()}
+                  </span>
+                </td>
+                <td style={{ padding: '1rem', textAlign: 'right' }}>
+                  <span style={{ 
+                    padding: '0.25rem 0.75rem',
+                    background: '#dcfce7',
+                    color: '#166534',
+                    borderRadius: '999px',
+                    fontSize: '0.875rem',
+                    fontWeight: '500'
+                  }}>
+                    {pred.confidence_level}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Summary Stats */}
+      <div style={{ 
+        padding: '1.5rem', 
+        background: '#f9fafb', 
+        borderTop: '1px solid #e5e7eb',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gap: '1rem'
+      }}>
+        <div>
+          <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
+            Average Predicted Yield
+          </p>
+          <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937' }}>
+            {avgYield} MT
+          </p>
+        </div>
+        <div>
+          <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
+            Total Predicted Yield
+          </p>
+          <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937' }}>
+            {totalYield} MT
+          </p>
+        </div>
+        {highestMonth && (
+          <div>
+            <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>
+              Highest Month
+            </p>
+            <p style={{ fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937' }}>
+              {highestMonth.month}
+            </p>
           </div>
-        )
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Component for Type Breakdown View
+const TypeBreakdownView = ({ typeBreakdown, getReliabilityColor }) => {
+  const rubberTypes = ['Sheet', 'Sole', 'Crepe', 'Scrap', 'Crepe Latex', 'Crepe TSR'];
+  
+  return (
+    <div style={{ background: 'white', borderRadius: '0.75rem', overflow: 'hidden', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+      <div style={{ padding: '1.5rem', borderBottom: '1px solid #e5e7eb' }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>
+          Production Forecast by Rubber Type
+        </h3>
+        <p style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '0.5rem' }}>
+          ℹ️ {typeBreakdown.summary?.note || 'Latex not shown (no production in Sri Lanka)'}
+        </p>
+      </div>
+      
+      <div style={{ overflowX: 'auto' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.875rem' }}>
+          <thead>
+            <tr style={{ background: '#f9fafb' }}>
+              <th style={{ padding: '1rem', textAlign: 'left', position: 'sticky', left: 0, background: '#f9fafb', zIndex: 10 }}>
+                Period
+              </th>
+              {rubberTypes.map(type => (
+                <th key={type} style={{ padding: '1rem', textAlign: 'right', minWidth: '120px' }}>
+                  <div>{type}</div>
+                  {typeBreakdown.type_performance?.[type] && (
+                    <div style={{ 
+                      fontSize: '0.65rem', 
+                      fontWeight: 'normal',
+                      color: getReliabilityColor(typeBreakdown.type_performance[type].reliability),
+                      marginTop: '0.25rem'
+                    }}>
+                      ● {typeBreakdown.type_performance[type].reliability}
+                    </div>
+                  )}
+                </th>
+              ))}
+              <th style={{ padding: '1rem', textAlign: 'right', fontWeight: 'bold', background: '#fef3c7' }}>
+                Total (MT)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {typeBreakdown.predictions.map((pred, index) => {
+              const monthTotal = rubberTypes.reduce((sum, type) => {
+                return sum + (pred.types[type] || 0);
+              }, 0);
+
+              return (
+                <tr key={index} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                  <td style={{ padding: '1rem', fontWeight: '600', position: 'sticky', left: 0, background: 'white', zIndex: 5 }}>
+                    {pred.month} {pred.year}
+                  </td>
+                  {rubberTypes.map(type => (
+                    <td key={type} style={{ padding: '1rem', textAlign: 'right' }}>
+                      {pred.types[type] ? pred.types[type].toLocaleString() : '-'}
+                    </td>
+                  ))}
+                  <td style={{ padding: '1rem', textAlign: 'right', fontWeight: 'bold', background: '#fefce8' }}>
+                    {pred.types.Total ? pred.types.Total.toLocaleString() : monthTotal.toLocaleString()}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Model Performance Summary */}
+      {typeBreakdown.type_performance && (
+        <div style={{ padding: '1.5rem', background: '#f9fafb', borderTop: '1px solid #e5e7eb' }}>
+          <h4 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '1rem' }}>
+            Model Reliability by Type
+          </h4>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '1rem' }}>
+            {Object.entries(typeBreakdown.type_performance)
+              .filter(([type]) => type !== 'Total' && rubberTypes.includes(type))
+              .map(([type, perf]) => (
+              <div key={type} style={{ 
+                padding: '0.75rem', 
+                background: 'white', 
+                borderRadius: '0.5rem',
+                borderLeft: `4px solid ${getReliabilityColor(perf.reliability)}`
+              }}>
+                <p style={{ fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem' }}>
+                  {type}
+                </p>
+                <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                  Method: {perf.method}
+                </p>
+                <p style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                  MAE: {perf.mae} MT
+                </p>
+                <div style={{ 
+                  marginTop: '0.5rem',
+                  padding: '0.25rem 0.5rem',
+                  background: getReliabilityColor(perf.reliability),
+                  color: 'white',
+                  borderRadius: '0.25rem',
+                  fontSize: '0.7rem',
+                  textAlign: 'center',
+                  fontWeight: '600'
+                }}>
+                  {perf.reliability} Reliability
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

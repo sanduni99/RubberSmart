@@ -23,19 +23,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Include routers
 app.include_router(auth.router)
 app.include_router(production.router, prefix="/api/production", tags=["Production"])
 app.include_router(prices.router, prefix="/api/prices", tags=["Prices"])
 app.include_router(stats.router, prefix="/api/stats", tags=["Stats"])
-app.include_router(predictions.router, prefix="/api/predict", tags=["predictions"])
+app.include_router(predictions.router, prefix="/api/predictions", tags=["predictions"])  # ← FIXED!
 
 @app.get("/")
 def root():
     return {
         "message": "RubberSmart API",
         "version": "1.0",
-        "status": "running"
+        "status": "running",
+        "endpoints": {
+            "predictions_health": "/api/predictions/health",
+            "yield": "/api/predictions/yield?months=6",
+            "yield_by_type": "/api/predictions/yield/by-type?months=6",
+            "price": "/api/predictions/price?months=6"
+        }
     }
 
 @app.get("/api/production")
@@ -45,7 +51,11 @@ def get_production(skip: int = 0, limit: int = 100, db: Session = Depends(get_db
 
 @app.get("/api/prices")
 def get_prices(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    prices = db.query(Price).offset(skip).limit(limit).all()
+    prices = db.query(Price)\
+        .order_by(Price.Year.desc(), Price.id.desc())\
+        .offset(skip)\
+        .limit(limit)\
+        .all()
     return prices
 
 @app.get("/api/production/latest")
@@ -86,5 +96,4 @@ def get_stats(db: Session = Depends(get_db)):
             "max_price_lkr": price_stats.max_price
         }
     }
-    
     
