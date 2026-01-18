@@ -6,7 +6,7 @@ import styles from './Navbar.module.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, logoutUser  } = useAuth();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -14,7 +14,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    logoutUser ();
     navigate('/');
     setMenuOpen(false);
   };

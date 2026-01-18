@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import func
 from app.database import get_db, engine
 from app.models import Base, Production, Price
-from app.routers import production, prices, stats
+from app.routers import production, prices, stats, auth  
 from app.routers import predictions
 
 # Create tables
@@ -24,12 +24,11 @@ app.add_middleware(
 )
 
 
-
+app.include_router(auth.router)
 app.include_router(production.router, prefix="/api/production", tags=["Production"])
 app.include_router(prices.router, prefix="/api/prices", tags=["Prices"])
 app.include_router(stats.router, prefix="/api/stats", tags=["Stats"])
 app.include_router(predictions.router, prefix="/api/predict", tags=["predictions"])
-
 
 @app.get("/")
 def root():

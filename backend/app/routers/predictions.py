@@ -34,7 +34,7 @@ def predict_yield(months: int = 6):
     try:
         predictions = yield_model.forecast(steps=months)
         
-        last_date = datetime(2023, 12, 1)
+        last_date = datetime(2026, 1, 1)
         results = []
         
         for i, pred in enumerate(predictions, 1):
@@ -65,7 +65,7 @@ def predict_price(months: int = 6):
     try:
         predictions = price_model.forecast(steps=months)
         
-        last_date = datetime(2023, 12, 1)
+        last_date = datetime(2026, 1, 1)
         results = []
         
         for i, pred in enumerate(predictions, 1):

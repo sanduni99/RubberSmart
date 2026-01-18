@@ -1,49 +1,52 @@
-// src/pages/auth/login.jsx
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../../contexts/AuthContext'
+// src/pages/auth/Login.jsx
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import { authApi } from '../../services/api';
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const { setUser } = useAuth()
-  const navigate = useNavigate()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { loginUser } = useAuth();
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // fake login for now
-    setUser({ email })
-    navigate('/dashboard') // redirect to dashboard after login
-  }
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      const response = await authApi.login({ email, password });
+      loginUser(response.access_token); 
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || "Login failed");
+    }
+  };
 
   return (
     <div style={{ maxWidth: '400px', margin: '50px auto' }}>
       <h1>Login</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: '100%' }}
-          />
-        </div>
-        <div style={{ marginBottom: '10px' }}>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: '100%' }}
-          />
-        </div>
-        <button type="submit" style={{ width: '100%' }}>Login</button>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          required
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login</button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

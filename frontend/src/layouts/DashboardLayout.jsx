@@ -12,7 +12,7 @@ const DashboardLayout = () => {
       <AppSidebar />
       <div className="wrapper d-flex flex-column min-vh-100">
         <AppHeader />
-        <div className="px-3 body flex-grow-1">
+        <div className="dashboard-wrapper">
           <CContainer lg>
             <Outlet />
           </CContainer>
