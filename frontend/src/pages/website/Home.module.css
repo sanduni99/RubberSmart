@@ -1,0 +1,159 @@
+.header{
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   background-image: url("../../assets/images/header_image.png");
+   background-size: cover;
+   background-position: center;
+   position: relative;
+}
+
+.title{
+    font-family: Instrument Sans;
+    font-weight: bold;
+    color:#ffff;  
+}
+
+.buttonContainer{
+    display: flex;
+   margin-left: 328px;
+}
+
+.ctaButton{
+    width: 150px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    background-color: #1B6005;
+    color: #ffff;
+    align-items: center;
+
+}
+
+.ctaButton_learn{
+    width: 150px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 400;
+    background-color: #1B6005;
+    color: #ffff;
+    margin-left: 150px;
+}
+.ctaButton_learn:hover {
+  background-color: transparent;
+  border: 1px solid #fff;
+}
+
+.features {
+  padding: 20px;
+  width: 94%;
+  margin-left: 56px;
+  background-color: #F3FBF2;
+  border-radius: 10px;
+  margin-top: 37px;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-left: 37px;
+}
+
+.featureCard {
+  padding: 10px;
+  border-radius: 8px;
+  width: 150%;
+}
+
+.featureTitle{
+    font-family: 'Itim', cursive;
+    font-weight: 300;
+}
+
+.featureDescription{
+    font-family: 'Istok Web', sans-serif;
+    width: 55%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.featureIcon img{
+    width : 40%;
+    margin: 0 24px;
+}
+
+.middleSection{
+    text-align: center;
+    margin: 50px 0;
+}
+
+.middleSection h2{
+    font-family: 'Istok Web', sans-serif;
+    font-weight: bold;
+}
+
+.middleSection p{
+    font-family: 'Istok Web', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
+}
+
+.howItWorks{
+  padding: 80px 20px;
+  background-color: #f6fdf6;
+  text-align: center;
+}
+
+.sectionTitle{
+    font-family: 'Istok Web', sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin: 0 auto;
+}
+
+.stepCard {
+  padding: 30px 20px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #b5e2a6;
+  width: 80%;
+}
+
+.stepCard:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15); 
+}
+
+.stepNumber {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1B6005;
+  margin-bottom: 10px;
+}
+
+.stepTitle{
+  font-family: 'Itim', cursive;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.stepCard:not(:last-child)::after {
+  content: "➜";
+  position: absolute;
+  top: 50%;
+  right: -60px;
+  transform: translateY(-50%);
+  font-size: 24px;
+  color: #1B6005;
+}

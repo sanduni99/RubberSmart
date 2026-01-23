@@ -1,0 +1,254 @@
+.loginContainer{
+  position: relative;
+  width: 100%;
+  height: auto;
+  background-image: url("../../assets/images/header_image.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 101vh;
+}
+
+.overlay{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0.6)
+  );
+  z-index: 1;
+}
+
+.formWrapper{
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 650px;
+  max-width: 95%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  overflow: hidden;
+
+}
+
+.leftPanel{
+background-color: #e8f5e9;
+}
+.leftPanel img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+}
+
+.rightPanel{
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 218px;
+  height: 48vh;
+}
+
+.rightPanel h2{
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.rightPanel input{
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 12px;
+}
+.rightPanel button{
+margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1b6005;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+}
+
+.rightPanel button:hover{
+  background-color: #145003;
+}
+
+.formWrapper h1{
+  color: #1b6005;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.formWrapper input{
+width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.formWrapper button{
+ width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1b6005;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.formWrapper button:hover{
+  background-color: #145003;
+}
+
+.error{
+  color: red;
+  margin-bottom: 10px;
+}
+
+.formlogo{
+  position: relative;
+  right: 12%;
+  top: 33px;
+}
+.formlogo img{
+  width: 77%;
+}
+
+.formContainer{
+  position: relative;
+  top: 41%;
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #333;
+  font-size: 18px;
+}
+
+.signupPrompt {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.signupPrompt p {
+  margin: 5px 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.link {
+  color: #1b6005;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: #145003;
+}
+
+.footerInfo{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  text-align: center;
+  color: #ffffff;
+  font-size: 24px;
+  z-index: 5;
+}
+
+
+/* MEDIA QUERIES FOR RESPONSIVENESS */
+
+@media (max-width: 1024px) {
+  .formWrapper {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack left and right panels */
+    width: 550px; /* Keep the width for tablets */
+  }
+
+  .rightPanel {
+    padding: 30px 20px;
+    margin-bottom: 50px;
+  }
+
+  .leftPanel {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .formWrapper {
+    width: 95%; /* Allow small screens to use almost full width */
+  }
+
+  .rightPanel {
+    padding: 25px 15px;
+    margin-bottom: 40px;
+  }
+
+  .leftPanel {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .formWrapper {
+    width: 95%;
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .rightPanel {
+    padding: 15px 10px;
+    margin-bottom: 20px;
+  }
+
+  .rightPanel h2,
+  .formWrapper h1 {
+    font-size: 20px;
+  }
+
+  .rightPanel input,
+  .formWrapper input {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .rightPanel button,
+  .formWrapper button {
+    font-size: 15px;
+    padding: 10px;
+  }
+
+  .leftPanel {
+    height: 150px;
+  }
+}

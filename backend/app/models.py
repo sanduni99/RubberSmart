@@ -1,5 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import DateTime
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -36,3 +38,5 @@ class User(Base):
     password_hash = Column(String)
     district = Column(String)
     preferred_language = Column(String, default="en")
+    reset_token = Column(String, nullable=True)
+    reset_token_expires_at = Column(DateTime, nullable=True)

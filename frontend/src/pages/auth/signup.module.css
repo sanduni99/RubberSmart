@@ -1,0 +1,138 @@
+.signupContainer{
+  position: relative;
+  width: 100%;
+  height: auto;
+  background-image: url("../../assets/images/header_image.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 101vh;
+}
+
+.overlay{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.4),
+    rgba(0, 0, 0, 0.6)
+  );
+  z-index: 1;
+}
+
+.formWrapper{
+  position: relative;
+  z-index: 2;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 650px;
+  max-width: 95%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  overflow: hidden;
+
+}
+
+.leftPanel{
+background-color: #e8f5e9;
+}
+.leftPanel img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+}
+
+.rightPanel{
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 218px;
+  height: 48vh;
+}
+
+.rightPanel h2{
+  margin-bottom: 20px;
+  color: #333333;
+}
+
+.rightPanel input{
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border: 1px solid #cccccc;
+  border-radius: 12px;
+}
+.rightPanel button{
+margin-top: 10px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1b6005;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+}
+
+.rightPanel button:hover{
+  background-color: #145003;
+}
+
+.formWrapper h1{
+  color: #1b6005;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.formWrapper input{
+width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 15px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.formWrapper button{
+ width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #1b6005;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.formWrapper button:hover{
+  background-color: #145003;
+}
+
+.error{
+  color: red;
+  margin-bottom: 15px;
+}
+
+.formlogo{
+  position: relative;
+  right: 12%;
+  top: 123px;
+}
+.formlogo img{
+  width: 77%;
+}
+
+.formContainer{
+  position: relative;
+  top: 41%;
+}

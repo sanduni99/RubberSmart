@@ -1,135 +1,90 @@
-// src/pages/website/Home.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import styles from "./Home.module.css";
 
 const Home = () => {
   return (
     <div>
-      {/* Hero Section */}
-      <section style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #10b981 0%, #3b82f6 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-        color: 'white',
-        padding: '2rem'
-      }}>
-        <div style={{ maxWidth: '800px' }}>
-          <h1 style={{ fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1.5rem' }}>
-            🌳 Welcome to RubberSmart
-          </h1>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>
-            AI-powered rubber plantation management system. 
-            Predict yields, track prices, and optimize your plantation with smart technology.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+      <section className={styles.header}>
+        <div className={styles.headerContent}>
+          <h1 className={styles.title}>RubberSmart - AI powered Yield Predication & Market Intelligent</h1>
+          <div className={styles.buttonContainer}>
             <Link to="/signup">
-              <button style={{
-                padding: '1rem 2rem',
-                background: 'white',
-                color: '#10b981',
-                border: 'none',
-                borderRadius: '0.5rem',
-                fontSize: '1.125rem',
-                fontWeight: '600',
-                cursor: 'pointer',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-              }}>
-                Get Started Free
-              </button>
+              <button className={styles.ctaButton}>Get Started</button>
             </Link>
-            <Link to="/login">
-              <button style={{
-                padding: '1rem 2rem',
-                background: 'transparent',
-                color: 'white',
-                border: '2px solid white',
-                borderRadius: '0.5rem',
-                fontSize: '1.125rem',
-                fontWeight: '600',
-                cursor: 'pointer'
-              }}>
-                Login
-              </button>
+            <Link to="/learnmore">
+              <button className={styles.ctaButton_learn}>Learn More</button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section style={{ padding: '4rem 2rem', background: 'white' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', textAlign: 'center', marginBottom: '3rem' }}>
-            Why Choose RubberSmart?
-          </h2>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-            {/* Feature 1 */}
-            <div style={{ padding: '2rem', background: '#f9fafb', borderRadius: '0.75rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌱</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.75rem' }}>
-                Yield Prediction
-              </h3>
-              <p style={{ color: '#666' }}>
-                AI-powered yield forecasting based on weather, soil, and tree conditions
-              </p>
+      {/* feature section */}
+      <section className={styles.features}>
+        <div className={styles.featureGrid}>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+             <img src="/assets/images/vector_images/yield_new.png" alt="Yield Forecasting" />
             </div>
-
-            {/* Feature 2 */}
-            <div style={{ padding: '2rem', background: '#f9fafb', borderRadius: '0.75rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💰</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.75rem' }}>
-                Price Intelligence
-              </h3>
-              <p style={{ color: '#666' }}>
-                Real-time market prices and insights to maximize your profits
-              </p>
+            <h3 className={styles.featureTitle}>Yield Forecasting</h3>
+            <p className={styles.featureDescription}>Accurency forecast rubber yield for better planting</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <img src="/assets/images/vector_images/business_new.png" alt="Price Intelligence" />
             </div>
-
-            {/* Feature 3 */}
-            <div style={{ padding: '2rem', background: '#f9fafb', borderRadius: '0.75rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>📊</div>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.75rem' }}>
-                Analytics Dashboard
-              </h3>
-              <p style={{ color: '#666' }}>
-                Comprehensive analytics and reporting for data-driven decisions
-              </p>
+            <h3 className={styles.featureTitle}>Price Intelligence</h3>
+            <p className={styles.featureDescription}>Track rubber market to optimized your sale.</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <img src="/assets/images/vector_images/report_new.png" alt="Analytics and Reports" />
             </div>
+            <h3 className={styles.featureTitle}>Analytics and Reports</h3>
+            <p className={styles.featureDescription}>Analyis Yield data and price data with reports</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.featureIcon}>
+              <img src="/assets/images/vector_images/price_new.png" alt="Price Alert Management" />
+            </div>
+            <h3 className={styles.featureTitle}>Price Alert Management</h3>
+            <p className={styles.featureDescription}>Get notified with critical price changes immedialtly</p>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section style={{
-        padding: '4rem 2rem',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        textAlign: 'center',
-        color: 'white'
-      }}>
-        <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-          Ready to Transform Your Plantation?
-        </h2>
-        <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>
-          Join hundreds of farmers using RubberSmart
+      {/* Middle heading */}
+      <section className={styles.middleSection}>
+        <h2 className={styles.middleTitle}>Enhance Your Rubber Business with Advanced AI Insights</h2>
+        <p className={styles.middleDescription}>
+          Get started with RubberSmart today and boost your productivity and profits.
         </p>
-        <Link to="/signup">
-          <button style={{
-            padding: '1rem 2.5rem',
-            background: 'white',
-            color: '#667eea',
-            border: 'none',
-            borderRadius: '0.5rem',
-            fontSize: '1.125rem',
-            fontWeight: '600',
-            cursor: 'pointer',
-            boxShadow: '0 4px 6px rgba(0,0,0,0.1)'
-          }}>
-            Start Free Trial
-          </button>
-        </Link>
+      </section>
+
+      {/* How it works */}
+      <section className={styles.howItWorks}>
+        <h2 className={styles.sectionTitle}>How RubberSmart Works</h2>
+        <p className={styles.sectionDescription}>
+          AI-powered forecasting for rubber prices, types, and yield trends.
+        </p>
+        <div className={styles.stepsGrid}>
+          <div className={styles.stepCard}>
+            <h3 className={styles.stepTitle}>AI Market Analysis</h3>
+            <p className={styles.stepDescription}>RubberSmart continuously analyzes rubber market and industry data.</p>
+          </div>
+          <div className={styles.stepCard}>
+            <h3 className={styles.stepTitle}>Price & Yield Forecasting</h3>
+            <p className={styles.stepDescription}>Provide your farm and market data for analysis.</p>
+          </div>
+          <div className={styles.stepCard}>
+            <h3 className={styles.stepTitle}>Market Intelligence</h3>
+            <p className={styles.stepDescription}>Understand demand, supply, and price movements across regions.</p>
+          </div>
+          <div className={styles.stepCard}>
+            <h3 className={styles.stepTitle}>Login to View Forecasts</h3>
+            <p className={styles.stepDescription}>Access 3,6,12,24 months forecasts through the dashboard.</p>
+          </div>
+        </div>
       </section>
     </div>
   );

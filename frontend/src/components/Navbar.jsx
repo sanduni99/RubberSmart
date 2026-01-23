@@ -23,7 +23,7 @@ const Navbar = () => {
     <nav className={styles.nav}>
       <div className={styles.navContainer}>
         <Link to="/" className={styles.logo}>
-          🌳 RubberSmart
+          <img src="/assets/images/vector_images/logo_1.png" alt="logo" />
         </Link>
         
         {/* Desktop links */}
@@ -51,7 +51,7 @@ const Navbar = () => {
                 <button className={styles.loginBtn}>Login</button>
               </Link>
               <Link to="/signup">
-                <button className={styles.signupBtn}>Sign Up</button>
+                <button className={styles.signupBtn}>Register</button>
               </Link>
             </>
           )}
