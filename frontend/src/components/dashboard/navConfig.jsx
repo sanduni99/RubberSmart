@@ -31,12 +31,7 @@ const navConfig = [
     component: CNavTitle,
     name: 'Management',
   },
-  {
-    component: CNavItem,
-    name: 'My Plantation',
-    to: '/dashboard/plantation',
-    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
-  },
+
   {
     component: CNavTitle,
     name: 'Account',
@@ -47,12 +42,7 @@ const navConfig = [
     to: '/dashboard/profile',
     icon: <CIcon icon={cilUser} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Settings',
-    to: '/dashboard/settings',
-    icon: <CIcon icon={cilSettings} customClassName="nav-icon" />,
-  },
+
 ]
 
 export default navConfig

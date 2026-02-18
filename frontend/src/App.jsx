@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
+
 // Layouts
 import WebsiteLayout from './layouts/WebsiteLayout';
 import DashboardLayout from './layouts/DashboardLayout';
@@ -12,6 +13,8 @@ import DashboardLayout from './layouts/DashboardLayout';
 import Home from './pages/website/Home';
 import About from './pages/website/About';
 import Features from './pages/website/Features';
+import Tapping from './pages/website/Tapping';
+import Contact from './pages/website/Contact';
 
 // Auth pages
 import Login from './pages/auth/login';
@@ -21,6 +24,8 @@ import Signup from './pages/auth/signup';
 import Dashboard from './pages/dashboard/Dashboard';
 import YieldPrediction from './pages/dashboard/YieldPrediction';
 import PriceIntelligence from './pages/dashboard/PriceIntelligence';
+import Profile from './components/dashboard/Profile';
+
 
 function App() {
   return (
@@ -32,6 +37,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="features" element={<Features />} />
+            <Route path="tapping" element={<Tapping />} />
+            <Route path="contact" element={<Contact />} />
           </Route>
 
           {/* Auth Routes */}
@@ -50,6 +57,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="yield-prediction" element={<YieldPrediction />} />
             <Route path="price-intelligence" element={<PriceIntelligence />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
 
           {/* Catch all */}

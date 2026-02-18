@@ -1,0 +1,76 @@
+.aboutheader{
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.aboutContainer{
+    padding: 6rem 2rem;
+    background-image: url("../../assets/images/about_bg.jpg");
+    color: white;
+    text-align: center;
+}
+
+.aboutTitle{
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #01050f;
+}
+
+.aboutSubtitle{
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.aboutSection{
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.aboutContent{
+    margin-bottom: 3rem;
+}
+.aboutContentTitle{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+.aboutContentText{
+    font-size: 1.125rem;
+    color: #666;
+    line-height: 1.8;
+}
+.aboutContenttwo{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.aboutContenttwoTitle{
+    text-align: center;
+    padding: 2rem;
+}
+.aboutEmoji{
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+.aboutContenttwoSubtitle{
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+.aboutContenttwoText{
+    color: #666;
+    font-size: 1rem;
+}
+.aboutContenttwoValues{
+    text-align: center;
+    padding: 2rem;
+}
+.aboutContenttwoImpact{
+    text-align: center;
+    padding: 2rem;
+}

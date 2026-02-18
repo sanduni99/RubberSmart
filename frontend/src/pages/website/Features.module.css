@@ -1,0 +1,38 @@
+.featuresContainer{
+    min-height: 100vh;
+    background: white;
+}
+
+.featuresHeader{
+    padding: 10rem 2rem;
+    background-image: url("../../assets/images/feature_bg.png");
+    color: white;
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.featuresTitle{
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.featuresSubtitle{
+    font-size: 1.25rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.featuresContent{
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.featuresGrid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}

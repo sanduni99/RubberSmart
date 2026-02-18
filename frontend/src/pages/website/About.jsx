@@ -1,68 +1,58 @@
-// src/pages/website/About.jsx
 import React from 'react';
+import { useTranslation } from "react-i18next";
+import Footer from "../../components/Footer";
+import style from "./About.module.css";
 
 const About = () => {
+  const { t } = useTranslation("about")
   return (
-    <div style={{ minHeight: '100vh', background: 'white' }}>
-      <section style={{
-        padding: '4rem 2rem',
-        background: 'linear-gradient(135deg, #10b981 0%, #3b82f6 100%)',
-        color: 'white',
-        textAlign: 'center'
-      }}>
-        <h1 style={{ fontSize: '3rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-          About RubberSmart
+    <div id='about'>
+    <div className={style.aboutheader}>
+      <section className={style.aboutContainer} >
+        <h1 className={style.aboutTitle}>{t("title")}
         </h1>
-        <p style={{ fontSize: '1.25rem', maxWidth: '800px', margin: '0 auto' }}>
-          Empowering rubber farmers with AI-driven insights and technology
+        <p className={style.aboutSubtitle}>{t("desc")}
         </p>
       </section>
 
-      <section style={{ padding: '4rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            Our Mission
+      <section className={style.aboutSection}>
+        <div className={style.aboutContent}>
+          <h2 className={style.aboutContentTitle}>{t("missionTitle")}
           </h2>
-          <p style={{ fontSize: '1.125rem', color: '#666', lineHeight: '1.8' }}>
-            RubberSmart is dedicated to revolutionizing rubber plantation management through 
-            cutting-edge technology and data-driven insights. We help farmers maximize their 
-            yields, optimize their operations, and make informed decisions about pricing and 
-            market conditions.
+          <p className={style.aboutContentText}>{t("missionDesc")}
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginTop: '3rem' }}>
-          <div style={{ textAlign: 'center', padding: '2rem' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎯</div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-              Our Vision
+        <div className={style.aboutContenttwo}>
+          <div className={style.aboutContenttwoTitle}>
+            <div className={style.aboutEmoji}></div>
+            <h3 className={style.aboutContenttwoSubtitle}>{t("visionTitle")}
             </h3>
-            <p style={{ color: '#666' }}>
-              To be the leading smart agriculture platform for rubber farmers worldwide
+            <p className={style.aboutContenttwoText}>{t("visionDesc")}
             </p>
           </div>
 
-          <div style={{ textAlign: 'center', padding: '2rem' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🤝</div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-              Our Values
+          <div className={style.aboutContenttwoValues}>
+            <div className={style.aboutEmoji}></div>
+            <h3 className={style.aboutContenttwoSubtitle}>{t("valuesTitle")}
             </h3>
-            <p style={{ color: '#666' }}>
-              Innovation, sustainability, and farmer empowerment drive everything we do
+            <p className={style.aboutContenttwoText}>{t("valuesDesc")}
             </p>
           </div>
 
-          <div style={{ textAlign: 'center', padding: '2rem' }}>
-            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌍</div>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-              Our Impact
+          <div className={style.aboutContenttwoImpact}>
+            <div className={style.aboutEmoji}></div>
+            <h3 className={style.aboutContenttwoSubtitle}>{t("impactTitle")}
             </h3>
-            <p style={{ color: '#666' }}>
-              Helping farmers increase yields by up to 30% through smart technology
+            <p className={style.aboutContenttwoText}>{t("impactDesc")}
             </p>
           </div>
         </div>
       </section>
+      <section >
+          <Footer />
+        </section>
+    </div>
     </div>
   );
 };

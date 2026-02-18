@@ -1,19 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from "./Home.module.css";
+import { useTranslation } from "react-i18next";
+import ReviewSlider from "../../components/ReviewSlider";
+import Footer from "../../components/Footer";
+
 
 const Home = () => {
+  const { t } = useTranslation("home");
   return (
-    <div>
-      <section className={styles.header}>
+    <div id='home'>
+      <section className={styles.header} id="home">
         <div className={styles.headerContent}>
-          <h1 className={styles.title}>RubberSmart - AI powered Yield Predication & Market Intelligent</h1>
+          <h1 className={styles.title}>{t("title")}</h1>
           <div className={styles.buttonContainer}>
             <Link to="/signup">
-              <button className={styles.ctaButton}>Get Started</button>
+              <button className={styles.ctaButton}>{t("getStarted")}</button>
             </Link>
-            <Link to="/learnmore">
-              <button className={styles.ctaButton_learn}>Learn More</button>
+            <Link to="/features">
+              <button className={styles.ctaButton_learn}>{t("learnMore")}</button>
             </Link>
           </div>
         </div>
@@ -24,67 +29,83 @@ const Home = () => {
         <div className={styles.featureGrid}>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
-             <img src="/assets/images/vector_images/yield_new.png" alt="Yield Forecasting" />
+              <img src="/assets/images/vector_images/yield_new.png" alt="Yield Forecasting" />
             </div>
-            <h3 className={styles.featureTitle}>Yield Forecasting</h3>
-            <p className={styles.featureDescription}>Accurency forecast rubber yield for better planting</p>
+            <h3 className={styles.featureTitle}>{t("features.featureTitle")}</h3>
+            <p className={styles.featureDescription}>{t("features.featureDescription")}</p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
               <img src="/assets/images/vector_images/business_new.png" alt="Price Intelligence" />
             </div>
-            <h3 className={styles.featureTitle}>Price Intelligence</h3>
-            <p className={styles.featureDescription}>Track rubber market to optimized your sale.</p>
+            <h3 className={styles.featureTitle}>{t("features.priceTitle")}</h3>
+            <p className={styles.featureDescription}>{t("features.priceDesc")}</p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
               <img src="/assets/images/vector_images/report_new.png" alt="Analytics and Reports" />
             </div>
-            <h3 className={styles.featureTitle}>Analytics and Reports</h3>
-            <p className={styles.featureDescription}>Analyis Yield data and price data with reports</p>
+            <h3 className={styles.featureTitle}>{t("features.analyticsTitle")}</h3>
+            <p className={styles.featureDescription}>{t("features.analyticsDesc")}</p>
           </div>
           <div className={styles.featureCard}>
             <div className={styles.featureIcon}>
               <img src="/assets/images/vector_images/price_new.png" alt="Price Alert Management" />
             </div>
-            <h3 className={styles.featureTitle}>Price Alert Management</h3>
-            <p className={styles.featureDescription}>Get notified with critical price changes immedialtly</p>
+            <h3 className={styles.featureTitle}>{t("features.alertTitle")}</h3>
+            <p className={styles.featureDescription}>{t("features.alertDesc")}</p>
           </div>
         </div>
       </section>
 
       {/* Middle heading */}
       <section className={styles.middleSection}>
-        <h2 className={styles.middleTitle}>Enhance Your Rubber Business with Advanced AI Insights</h2>
+        <h2 className={styles.middleTitle}>{t("middleTitle")}</h2>
         <p className={styles.middleDescription}>
-          Get started with RubberSmart today and boost your productivity and profits.
+          {t("middleDesc")}
         </p>
       </section>
 
       {/* How it works */}
       <section className={styles.howItWorks}>
-        <h2 className={styles.sectionTitle}>How RubberSmart Works</h2>
+        <h2 className={styles.sectionTitle}>{t("howItWorksTitle")}</h2>
         <p className={styles.sectionDescription}>
-          AI-powered forecasting for rubber prices, types, and yield trends.
+          {t("howItWorksDesc")}
         </p>
         <div className={styles.stepsGrid}>
           <div className={styles.stepCard}>
-            <h3 className={styles.stepTitle}>AI Market Analysis</h3>
-            <p className={styles.stepDescription}>RubberSmart continuously analyzes rubber market and industry data.</p>
+            <h3 className={styles.stepTitle}>{t("steps.step1Title")}</h3>
+            <p className={styles.stepDescription}>{t("steps.step1Desc")}</p>
           </div>
           <div className={styles.stepCard}>
-            <h3 className={styles.stepTitle}>Price & Yield Forecasting</h3>
-            <p className={styles.stepDescription}>Provide your farm and market data for analysis.</p>
+            <h3 className={styles.stepTitle}>{t("steps.step2Title")}</h3>
+            <p className={styles.stepDescription}>{t("steps.step2Desc")}</p>
           </div>
           <div className={styles.stepCard}>
-            <h3 className={styles.stepTitle}>Market Intelligence</h3>
-            <p className={styles.stepDescription}>Understand demand, supply, and price movements across regions.</p>
+            <h3 className={styles.stepTitle}>{t("steps.step3Title")}</h3>
+            <p className={styles.stepDescription}>{t("steps.step3Desc")}</p>
           </div>
           <div className={styles.stepCard}>
-            <h3 className={styles.stepTitle}>Login to View Forecasts</h3>
-            <p className={styles.stepDescription}>Access 3,6,12,24 months forecasts through the dashboard.</p>
+            <h3 className={styles.stepTitle}>{t("steps.step4Title")}</h3>
+            <p className={styles.stepDescription}>{t("steps.step4Desc")}</p>
           </div>
         </div>
+      </section>
+
+      <section className={styles.ctaSection}>
+        <h2 className={styles.ctaTitle}>{t("ctaSection.ctaTitle")}</h2>
+        <p className={styles.ctaDescription}>{t("ctaSection.ctaDesc")}
+        </p>
+        <div style={{ maxWidth: "600px", margin: "40px auto" }}>
+          <ReviewSlider />
+        </div>
+        <Link to="/signup">
+          <button className={styles.ctaButton}>{t("getStarted")}</button>
+        </Link>
+      </section>
+
+      <section className={styles.footer}>
+        <Footer />
       </section>
     </div>
   );

@@ -33,10 +33,9 @@ const AppSidebar = () => {
       <CSidebarHeader className="border-bottom">
         <CSidebarBrand to="/dashboard">
           <div className="sidebar-brand-full" style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-            🌳 RubberSmart
+             RubberSmart
           </div>
           <div className="sidebar-brand-narrow" style={{ fontSize: '1.5rem' }}>
-            🌳
           </div>
         </CSidebarBrand>
         <CCloseButton

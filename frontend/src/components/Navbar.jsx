@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import styles from './Navbar.module.css';
+import { useTranslation } from "react-i18next";
+import LanguageDropdown from "../components/LanguageDropdown";
 
 const Navbar = () => {
+   const { t } = useTranslation("navbar")
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logoutUser  } = useAuth();
+  const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -14,7 +17,7 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    logoutUser ();
+    logoutUser();
     navigate('/');
     setMenuOpen(false);
   };
@@ -25,17 +28,18 @@ const Navbar = () => {
         <Link to="/" className={styles.logo}>
           <img src="/assets/images/vector_images/logo_1.png" alt="logo" />
         </Link>
-        
+
         {/* Desktop links */}
         <div className={styles.navLinks}>
-          <Link to="/" className={styles.navLink}>Home</Link>
-          <Link to="/about" className={styles.navLink}>About</Link>
-          <Link to="/features" className={styles.navLink}>Features</Link>
+          <Link to="/" className={styles.navLink}>{t("home")}</Link>
+          <Link to="/about" className={styles.navLink}>{t("about")}</Link>
+          <Link to="/features" className={styles.navLink}>{t("features")}</Link>
+          <Link to="/tapping" className={styles.navLink}>{t("tapping")}</Link>
           {user && (
             <Link to="/dashboard" className={styles.navLink}>Dashboard</Link>
           )}
         </div>
-        
+
         {/* Buttons */}
         <div className={styles.buttons}>
           {user ? (
@@ -56,7 +60,10 @@ const Navbar = () => {
             </>
           )}
         </div>
-        
+        <div className={styles.topRight}>
+          <LanguageDropdown />
+        </div>
+
         {/* Hamburger for mobile */}
         <div className={styles.hamburger} onClick={toggleMenu}>
           <span></span>
@@ -64,7 +71,7 @@ const Navbar = () => {
           <span></span>
         </div>
       </div>
-      
+
       {/* Mobile menu - FIX: Use template literal correctly */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.active : ''}`}>
         <Link to="/" className={styles.navLink} onClick={toggleMenu}>Home</Link>

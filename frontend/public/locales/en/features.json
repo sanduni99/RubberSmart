@@ -1,0 +1,37 @@
+{
+  "title": "Powerful Features",
+  "subtitle": "Everything you need to manage your rubber plantation efficiently",
+
+  "features": [
+    {
+      "title": "AI Yield Prediction",
+      "description": "Advanced machine learning models predict your rubber yield based on weather patterns, soil conditions, and tree health.",
+      "benefits": ["95% accuracy", "Real-time updates", "Historical data analysis"]
+    },
+    {
+      "title": "Price Intelligence",
+      "description": "Stay ahead of market trends with real-time price tracking and intelligent selling recommendations.",
+      "benefits": ["Live market data", "Price alerts", "Trend analysis"]
+    },
+    {
+      "title": "Analytics Dashboard",
+      "description": "Comprehensive insights into your plantation performance with beautiful visualizations and reports.",
+      "benefits": ["Custom reports", "Performance metrics", "Export capabilities"]
+    },
+    {
+      "title": "Weather Integration",
+      "description": "Get accurate weather forecasts and alerts specific to your plantation location.",
+      "benefits": ["7-day forecast", "Rainfall tracking", "Temperature alerts"]
+    },
+    {
+      "title": "Mobile Access",
+      "description": "Access your dashboard anywhere, anytime with our responsive mobile interface.",
+      "benefits": ["iOS & Android", "Offline mode", "Push notifications"]
+    },
+    {
+      "title": "Secure & Private",
+      "description": "Your data is encrypted and protected with enterprise-grade security measures.",
+      "benefits": ["Data encryption", "Regular backups", "Privacy controls"]
+    }
+  ]
+}

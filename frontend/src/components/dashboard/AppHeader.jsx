@@ -1,4 +1,3 @@
-// src/components/dashboard/AppHeader.jsx
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -50,13 +49,21 @@ const AppHeader = () => {
 
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink href="#/dashboard">Dashboard</CNavLink>
+            <CNavLink onClick={() => navigate("/dashboard")}>
+              Dashboard
+            </CNavLink>
           </CNavItem>
+
           <CNavItem>
-            <CNavLink href="#/dashboard/yield-prediction">Yield</CNavLink>
+            <CNavLink onClick={() => navigate("/dashboard/yield-prediction")}>
+              Yield
+            </CNavLink>
           </CNavItem>
+
           <CNavItem>
-            <CNavLink href="#/dashboard/price-intelligence">Prices</CNavLink>
+            <CNavLink onClick={() => navigate("/dashboard/price-intelligence")}>
+              Prices
+            </CNavLink>
           </CNavItem>
         </CHeaderNav>
 
@@ -84,14 +91,12 @@ const AppHeader = () => {
               <CDropdownItem header className="py-2 bg-light fw-semibold">
                 {user?.name || 'User'}
               </CDropdownItem>
-              <CDropdownItem href="#/dashboard/profile">
+              <CDropdownItem onClick={() => navigate("/dashboard/profile")}>
                 <CIcon icon={cilUser} className="me-2" />
                 Profile
               </CDropdownItem>
-              <CDropdownItem href="#/dashboard/settings">
-                <CIcon icon={cilSettings} className="me-2" />
-                Settings
-              </CDropdownItem>
+              
+
               <CDropdownDivider />
               <CDropdownItem onClick={handleLogout}>
                 <CIcon icon={cilAccountLogout} className="me-2" />

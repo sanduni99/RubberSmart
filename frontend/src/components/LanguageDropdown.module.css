@@ -1,0 +1,39 @@
+.wrapper {
+  position: relative;
+  display: inline-block;
+  z-index: 999; /* ensure dropdown is on top */
+}
+
+.langButton {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.dropdown {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+  overflow: visible;  /* allow dropdown content to show */
+  z-index: 1000;      /* on top of everything */
+}
+
+.dropdown button {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdown button:hover {
+  background: #f2f2f2;
+}

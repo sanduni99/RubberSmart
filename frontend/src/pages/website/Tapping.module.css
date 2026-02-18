@@ -1,0 +1,34 @@
+.tappinghead{
+background-image: url("../../assets/images/tapping_crop.png");
+color: white;
+text-align: center;
+background-size: cover;
+background-position: center;
+ height: 80vh;
+ width: 65%;
+margin-left: 35%;
+}
+
+.tappingTitle{
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 63%;
+    color: black;
+}
+
+.tappingContent{
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tappingContentTitle{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    text-align: center;
+}

@@ -1,0 +1,44 @@
+{
+  "title": "RubberSmart - AI powered Yield Prediction & Market Intelligence",
+  "getStarted": "Get Started",
+  "learnMore": "Learn More",
+
+  "features": {
+    "featureTitle": "Yield Forecasting",
+    "featureDescription": "Accurately forecast rubber yield for better planting",
+
+    "priceTitle": "Price Intelligence",
+    "priceDesc": "Track rubber market to optimize your sale.",
+
+    "analyticsTitle": "Analytics and Reports",
+    "analyticsDesc": "Analyze yield and price data with detailed reports",
+
+    "alertTitle": "Price Alert Management",
+    "alertDesc": "Get notified of critical price changes immediately"
+  },
+
+  "middleTitle": "Enhance Your Rubber Business with Advanced AI Insights",
+  "middleDesc": "Get started with RubberSmart today and boost your productivity and profits.",
+
+  "howItWorksTitle": "How RubberSmart Works",
+  "howItWorksDesc": "AI-powered forecasting for rubber prices, types, and yield trends.",
+
+  "steps": {
+    "step1Title": "AI Market Analysis",
+    "step1Desc": "RubberSmart continuously analyzes rubber market and industry data.",
+
+    "step2Title": "Price & Yield Forecasting",
+    "step2Desc": "Provide your farm and market data for analysis.",
+
+    "step3Title": "Market Intelligence",
+    "step3Desc": "Understand demand, supply, and price movements across regions.",
+
+    "step4Title": "Login to View Forecasts",
+    "step4Desc": "Access 3, 6, 12, and 24 month forecasts through the dashboard."
+  },
+
+  "ctaSection": {
+  "ctaTitle": "How farmers trust RubberSmart",
+  "ctaDesc": "Based on real user feedback, 95% of farmers reported improved decision-making and increased profits after using RubberSmart for just 3 months."
+  }
+}

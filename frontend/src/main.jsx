@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import App from './App.jsx'
 import { AuthProvider } from './contexts/AuthContext';
-import store from './store/store'
+import store from './store/store';
+import "./i18n";
 
 // CoreUI Styles
 import '@coreui/coreui/dist/css/coreui.min.css'

@@ -6,6 +6,10 @@ from app.database import get_db, engine
 from app.models import Base, Production, Price
 from app.routers import production, prices, stats, auth  
 from app.routers import predictions
+from app.routers import contact
+from app.routers.contact import router as contact_router
+from app.scheduler.email_scheduler import start_scheduler
+
 
 # Create tables
 Base.metadata.create_all(bind=engine)
@@ -28,7 +32,9 @@ app.include_router(auth.router)
 app.include_router(production.router, prefix="/api/production", tags=["Production"])
 app.include_router(prices.router, prefix="/api/prices", tags=["Prices"])
 app.include_router(stats.router, prefix="/api/stats", tags=["Stats"])
-app.include_router(predictions.router, prefix="/api/predictions", tags=["predictions"])  # ← FIXED!
+app.include_router(predictions.router, prefix="/api/predictions", tags=["predictions"]) 
+app.include_router(contact.router, prefix="/api/contact", tags=["Contact"])
+
 
 @app.get("/")
 def root():
@@ -96,4 +102,9 @@ def get_stats(db: Session = Depends(get_db)):
             "max_price_lkr": price_stats.max_price
         }
     }
+    
+    
+@app.on_event("startup")
+def startup_event():
+    start_scheduler()
     

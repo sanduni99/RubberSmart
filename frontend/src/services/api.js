@@ -2,29 +2,41 @@
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
 export const authApi = {
+
   signup: (data) =>
-    fetch(`${API_BASE_URL}/auth/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    fetchAPI("/auth/signup", {
+      method: "POST",
       body: JSON.stringify(data),
     }),
 
   login: (data) =>
-    fetch(`${API_BASE_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    fetchAPI("/auth/login", {
+      method: "POST",
       body: JSON.stringify(data),
     }),
-    logout: () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    window.location.href = '/login';
+
+  logout: () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.href = "/login";
   }
 };
+
+
+export const contactApi = {
+  sendMessage: async (data) => {
+    const res = await fetch(`${API_BASE_URL}/api/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    return res.json();
+  },
+};
+
 
 
 const getAuthHeaders = () => {
@@ -86,7 +98,8 @@ export const api = {
       fetchAPI(`/api/predictions/yield?months=${months}`),
     predictPrice: (months = 6) => 
       fetchAPI(`/api/predictions/price?months=${months}`),
-    predictPrice: (months = 6) => 
+    predictYieldByType
+    : (months = 6) => 
       fetchAPI(`/api/predictions/yield/by-type?months=${months}`),
   },
 };

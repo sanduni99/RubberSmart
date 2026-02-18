@@ -184,6 +184,22 @@ width: 100%;
   z-index: 5;
 }
 
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #666;
+  z-index: 10;
+}
+
+.closeBtn:hover {
+  color: #10b981;
+}
+
 
 /* MEDIA QUERIES FOR RESPONSIVENESS */
 
