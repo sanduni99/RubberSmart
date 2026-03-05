@@ -9,6 +9,26 @@
    position: relative;
 }
 
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+  z-index: 1;
+}
+
 .title{
     font-family: Instrument Sans;
     font-weight: bold;
@@ -16,9 +36,12 @@
     padding: 2rem 4rem;
     font-size:2rem;
 }
-.headerContent{
-    text-align: center;
-  }
+.headerContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
 
 .buttonContainer{
    display: flex;

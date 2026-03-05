@@ -46,16 +46,16 @@ const Navbar = () => {
             <>
               <span className={styles.userName}>Hi, {user.name}</span>
               <button onClick={handleLogout} className={styles.loginBtn}>
-                Logout
+               {t("logout")}
               </button>
             </>
           ) : (
             <>
               <Link to="/login">
-                <button className={styles.loginBtn}>Login</button>
+                <button className={styles.loginBtn}>{t("login")}</button>
               </Link>
               <Link to="/signup">
-                <button className={styles.signupBtn}>Register</button>
+                <button className={styles.signupBtn}>{t("signup")}</button>
               </Link>
             </>
           )}

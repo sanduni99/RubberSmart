@@ -1,0 +1,12 @@
+{
+    "register": "ලියාපදිංචි වන්න",
+  "fullname": "සම්පූර්ණ නම",
+  "email": "ඊමේල්",
+  "district": "දිස්ත්‍රික්කය",
+  "phone": "දුරකථන අංකය",
+  "password": "මුරපදය",
+  "createAccount": "ගිණුම සාදන්න",
+  "alreadyAccount": "දැනටමත් ගිණුමක් තිබේද?",
+  "login": "ඇතුල් වන්න",
+  "forgotPassword": "මුරපදය අමත් වියද?"
+}

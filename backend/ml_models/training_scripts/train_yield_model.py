@@ -143,8 +143,8 @@ model_info = {
 with open(info_path, 'wb') as f:
     pickle.dump(model_info, f)
 
-print(f"   ✅ Model saved: {model_path}")
-print(f"   ✅ Info saved: {info_path}")
+print(f"    Model saved: {model_path}")
+print(f"    Info saved: {info_path}")
 
 # Predict next 12 months WITHOUT artificial manipulation
 print("\n🔮 Predicting next 12 months...")
@@ -153,7 +153,7 @@ future_predictions = best_model.forecast(steps=12)
 # DO NOT add artificial seasonality - the model should learn this naturally
 # If predictions are flat, that's what the model actually predicts!
 
-print("\n📅 Future Yield Predictions:")
+print("\n Future Yield Predictions:")
 from dateutil.relativedelta import relativedelta
 last_date = df.index.max()
 
@@ -165,13 +165,13 @@ print(f"\n   Future predicted range: {future_predictions.min():.2f} - {future_pr
 print(f"   Future predicted std: {future_predictions.std():.2f} MT")
 
 if future_predictions.std() < 50:
-    print(f"\n   ℹ️ Note: Future predictions show low variation")
-    print(f"   ℹ️ This suggests stable production or limited seasonal patterns in data")
+    print(f"\n   ℹ Note: Future predictions show low variation")
+    print(f"   ℹ This suggests stable production or limited seasonal patterns in data")
 
 print("\n" + "="*60)
-print("✅ YIELD MODEL TRAINING COMPLETE!")
+print(" YIELD MODEL TRAINING COMPLETE!")
 print("="*60)
-print("\nℹ️  Model Interpretation:")
+print("\nℹ  Model Interpretation:")
 print(f"   • R² score represents how well the model explains variance")
 print(f"   • MAE shows average prediction error in MT")
 print(f"   • If predictions are flat, consider adding external features")

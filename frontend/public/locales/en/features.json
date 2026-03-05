@@ -19,11 +19,6 @@
       "benefits": ["Custom reports", "Performance metrics", "Export capabilities"]
     },
     {
-      "title": "Weather Integration",
-      "description": "Get accurate weather forecasts and alerts specific to your plantation location.",
-      "benefits": ["7-day forecast", "Rainfall tracking", "Temperature alerts"]
-    },
-    {
       "title": "Mobile Access",
       "description": "Access your dashboard anywhere, anytime with our responsive mobile interface.",
       "benefits": ["iOS & Android", "Offline mode", "Push notifications"]

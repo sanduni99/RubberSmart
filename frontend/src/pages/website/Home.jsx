@@ -11,6 +11,16 @@ const Home = () => {
   return (
     <div id='home'>
       <section className={styles.header} id="home">
+        <video
+          className={styles.backgroundVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/assets/images/bg_viedo.mp4" type="video/mp4" />
+        </video>
+        <div className={styles.overlay}></div>
         <div className={styles.headerContent}>
           <h1 className={styles.title}>{t("title")}</h1>
           <div className={styles.buttonContainer}>

@@ -5,8 +5,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import { authApi } from '../../services/api';
 import styles from './signup.module.css';
 import { FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Signup = () => {
+  const { t, i18n } = useTranslation("signup");
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [district, setDistrict] = useState('');
@@ -82,10 +84,18 @@ const Signup = () => {
             <img src="/assets/images/vector_images/logo_1.png" alt="RubberSmart Logo" />
           </div>
           <div className={styles.formContainer}>
-            <h1>Register</h1>
+            <h1>{t("register")}</h1>
             <select
               value={preferredLanguage}
-              onChange={(e) => setPreferredLanguage(e.target.value)}
+              onChange={(e) => {
+                const lang = e.target.value;
+                console.log("Selected Language:", lang);
+
+                setPreferredLanguage(lang);
+                i18n.changeLanguage(lang);
+
+                console.log("Language after change:", i18n.language);
+              }}
               required
             >
               <option value="en">English</option>
@@ -99,28 +109,28 @@ const Signup = () => {
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Full Name"
+                placeholder={t("fullname")}
                 required
               />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
+                placeholder={t("email")}
                 required
               />
               <input
                 type="District"
                 value={district}
                 onChange={(e) => setDistrict(e.target.value)}
-                placeholder="District"
+                placeholder={t("district")}
                 required
               />
               <input
                 type="text"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                placeholder="Phone Number"
+                placeholder={t("phone")}
                 required
               />
 
@@ -128,13 +138,13 @@ const Signup = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+                placeholder={t("password")}
                 required
               />
-              <button type="submit">Create Account</button>
+              <button type="submit">{t("createAccount")}</button>
               <div className={styles.loginPrompt}>
-                <span>Already have an account? </span>
-                <a href="/login">Login</a>
+                <span>{t("alreadyAccount")} </span>
+                <a href="/login">{t("login")}</a>
               </div>
             </form>
           </div>

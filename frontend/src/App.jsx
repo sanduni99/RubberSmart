@@ -19,6 +19,8 @@ import Contact from './pages/website/Contact';
 // Auth pages
 import Login from './pages/auth/login';
 import Signup from './pages/auth/signup';
+import ForgotPassword from './pages/auth/ForgotPassword';
+import ResetPassword from './pages/auth/ResetPassword';
 
 // Dashboard pages
 import Dashboard from './pages/dashboard/Dashboard';
@@ -44,6 +46,8 @@ function App() {
           {/* Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           {/* Protected Dashboard Routes */}
           <Route 

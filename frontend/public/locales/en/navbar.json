@@ -3,5 +3,8 @@
     "about": "About Us",
     "features": "Features",
     "tapping": "Tapping Management",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Sign Up"
 }

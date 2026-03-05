@@ -1,0 +1,12 @@
+{
+  "register": "Register",
+  "fullname": "Full Name",
+  "email": "Email",
+  "district": "District",
+  "phone": "Phone Number",
+  "password": "Password",
+  "forgotPassword": "Forgot Password?",
+  "createAccount": "Create Account",
+  "alreadyAccount": "Already have an account?",
+  "login": "Login"
+}

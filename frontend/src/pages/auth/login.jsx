@@ -5,8 +5,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import { authApi } from '../../services/api';
 import styles from './login.module.css';
 import { FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+   const { t, i18n } = useTranslation("login");
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useAuth();
@@ -67,7 +69,7 @@ const handleSubmit = async (e) => {
             <img src="/assets/images/vector_images/logo_1.png" alt="RubberSmart Logo" />
           </div>
           <div className={styles.formContainer}>
-            <h1>Login</h1>
+            <h1>{t("login")}</h1>
             {error && <p className={styles.error}>{error}</p>}
 
             <form onSubmit={handleSubmit}>
@@ -75,7 +77,7 @@ const handleSubmit = async (e) => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Please enter your email"
+                placeholder={t("email")}
                 required
               />
               <div className={styles.passwordWrapper}>
@@ -83,7 +85,7 @@ const handleSubmit = async (e) => {
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
+                  placeholder={t("password")}
                   required
                 />
                 <span
@@ -94,11 +96,11 @@ const handleSubmit = async (e) => {
                 </span>
               </div>
 
-              <button type="submit">Login</button>
+              <button type="submit">{t("login")}</button>
               <div className={styles.signupPrompt}>
-                <span>Don't have an account? </span>
-                <a href="/signup">Sign Up</a>
-                <p className={styles.forgotPassword}><a href="/forgot-password">Forgot Password?</a></p>
+                <span>{t("dont_have_account")}</span>
+                <a href="/signup">{t("signup")}</a>
+                <p className={styles.forgotPassword}><a href="/forgot-password">{t("forgot_password")}</a></p>
               </div>
             </form>
           </div>
