@@ -6,12 +6,10 @@ const LanguageDropdown = () => {
     const [open, setOpen] = useState(false);
     const wrapperRef = useRef(null);
 
-    console.log("Current language:", i18n.language);
 
     useEffect(() => {
         function handleClickOutside(event) {
             if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-                console.log("Clicked outside dropdown, closing it");
                 setOpen(false);
             }
         }
@@ -21,11 +19,9 @@ const LanguageDropdown = () => {
 
     const changeLang = (lang, e) => {
         e.stopPropagation(); 
-        console.log("Changing language to:", lang);
         i18n.changeLanguage(lang);
         localStorage.setItem("lang", lang);
         setOpen(false);
-        console.log("Dropdown closed after changing language");
     };
 
     return (
@@ -33,9 +29,8 @@ const LanguageDropdown = () => {
             <button
                 className={styles.langButton}
                 onClick={(e) => {
-                    e.stopPropagation(); // prevent document click from closing immediately
+                    e.stopPropagation(); 
                     setOpen(!open);
-                    console.log("Dropdown toggled. Open =", !open);
                 }}
             >
                 {i18n.language === "si" ? "සි" : "EN"} ▼
@@ -44,7 +39,7 @@ const LanguageDropdown = () => {
             {open && (
                 <div
                     className={styles.dropdown}
-                    onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+                    onClick={(e) => e.stopPropagation()} 
                 >
                     <button onClick={(e) => changeLang("en", e)}>EN</button>
                     <button onClick={(e) => changeLang("si", e)}>සි</button>

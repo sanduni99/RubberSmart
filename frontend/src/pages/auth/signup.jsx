@@ -89,12 +89,9 @@ const Signup = () => {
               value={preferredLanguage}
               onChange={(e) => {
                 const lang = e.target.value;
-                console.log("Selected Language:", lang);
 
                 setPreferredLanguage(lang);
                 i18n.changeLanguage(lang);
-
-                console.log("Language after change:", i18n.language);
               }}
               required
             >

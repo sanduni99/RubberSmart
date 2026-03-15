@@ -28,8 +28,8 @@ const Dashboard = () => {
       const [productionRes, pricesRes, yieldPredRes, pricePredRes] = await Promise.all([
         fetch('http://localhost:8000/api/production?skip=0&limit=12'),
         fetch('http://localhost:8000/api/prices?skip=0&limit=1'),
-        fetch('http://localhost:8000/api/predictions/yield?months=1'),
-        fetch('http://localhost:8000/api/predictions/price?months=1')
+        fetch('http://localhost:8000/api/predictions/yield?months=12'),
+        fetch('http://localhost:8000/api/predictions/price?months=12')
       ]);
 
       if (!productionRes.ok || !pricesRes.ok) {

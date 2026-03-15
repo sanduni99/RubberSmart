@@ -8,10 +8,8 @@ from app.routers.predictions import future_price_predictions
 
 logger = logging.getLogger(__name__)
 
-# ⭐ Global Scheduler
 scheduler = BackgroundScheduler()
 
-# ⭐ Prevent duplicate start
 scheduler_started = False
 
 
@@ -19,7 +17,7 @@ from app.routers.predictions import future_price_predictions
 
 def daily_email_job():
 
-    print("📅 Running Daily Email Job...")
+    print(" Running Daily Email Job...")
 
     db: Session = SessionLocal()
 
@@ -33,12 +31,10 @@ def daily_email_job():
 
             predictions = future_price_predictions.get("predictions", [])
 
-            # ⭐ CURRENT DATE
             now = datetime.now()
             current_year = now.year
             current_month = now.month
 
-            # ⭐ FIND FIRST FUTURE PREDICTION
             for p in predictions:
 
                 pred_year = p.get("year")
@@ -54,13 +50,13 @@ def daily_email_job():
                     predicted_year = pred_year
                     break
 
-        subject = "📊 Daily Rubber AI Price Forecast"
+        subject = " Daily Rubber AI Price Forecast"
 
         message = f"""
 <strong>Daily AI Rubber Price Forecast</strong><br><br>
 
-📅 Forecast Month: <strong>{predicted_month} {predicted_year}</strong><br>
-💰 Predicted Price: <strong style="color:green;">Rs. {predicted_price}</strong><br><br>
+ Forecast Month: <strong>{predicted_month} {predicted_year}</strong><br>
+ Predicted Price: <strong style="color:green;">Rs. {predicted_price}</strong><br><br>
 
 This prediction is generated using AI time-series forecasting models.
 """
@@ -68,7 +64,7 @@ This prediction is generated using AI time-series forecasting models.
         send_email_to_all_users(db, subject, message)
 
     except Exception as e:
-        logger.error(f"❌ Daily email job failed: {e}")
+        logger.error(f" Daily email job failed: {e}")
 
     finally:
         db.close()
@@ -80,7 +76,7 @@ def start_scheduler():
         logger.info("⚠ Scheduler already running")
         return
 
-    print("🚀 Starting Email Scheduler...")
+    print(" Starting Email Scheduler...")
 
     try:
 
@@ -89,6 +85,7 @@ def start_scheduler():
     trigger="cron",
     hour=7,
     minute=30,
+    # minute="*",
     id="daily_email_job",
     replace_existing=True
 )
@@ -97,7 +94,7 @@ def start_scheduler():
         scheduler.start()
         scheduler_started = True
 
-        logger.info("✅ Email Scheduler Started Successfully")
+        logger.info(" Email Scheduler Started Successfully")
 
     except Exception as e:
-        logger.error(f"❌ Scheduler start failed: {e}")
+        logger.error(f" Scheduler start failed: {e}")

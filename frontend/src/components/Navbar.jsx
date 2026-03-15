@@ -9,18 +9,18 @@ import LanguageDropdown from "../components/LanguageDropdown";
 const Navbar = () => {
    const { t } = useTranslation("navbar")
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logoutUser } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const handleLogout = () => {
-    logoutUser();
-    navigate('/');
-    setMenuOpen(false);
-  };
+ const handleLogout = () => {
+  logout();
+  navigate('/');
+  setMenuOpen(false);
+};
 
   return (
     <nav className={styles.nav}>
@@ -77,6 +77,7 @@ const Navbar = () => {
         <Link to="/" className={styles.navLink} onClick={toggleMenu}>Home</Link>
         <Link to="/about" className={styles.navLink} onClick={toggleMenu}>About</Link>
         <Link to="/features" className={styles.navLink} onClick={toggleMenu}>Features</Link>
+        <Link to="/tapping" className={styles.navLink} onClick={toggleMenu}>Tapping Management</Link>
         {user ? (
           <>
             <Link to="/dashboard" className={styles.navLink} onClick={toggleMenu}>Dashboard</Link>

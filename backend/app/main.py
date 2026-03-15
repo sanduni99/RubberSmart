@@ -2,6 +2,8 @@ from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import func
+from app.routers import admin
+from app.routers import admin_users
 from app.database import get_db, engine
 from app.models import Base, Production, Price
 from app.routers import production, prices, stats, auth  
@@ -34,6 +36,8 @@ app.include_router(prices.router, prefix="/api/prices", tags=["Prices"])
 app.include_router(stats.router, prefix="/api/stats", tags=["Stats"])
 app.include_router(predictions.router, prefix="/api/predictions", tags=["predictions"]) 
 app.include_router(contact.router, prefix="/api/contact", tags=["Contact"])
+app.include_router(admin.router)
+app.include_router(admin_users.router)
 
 
 @app.get("/")

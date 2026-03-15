@@ -1,5 +1,7 @@
 // frontend/src/pages/dashboard/PriceIntelligence.jsx
 import React, { useState, useEffect } from 'react';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const PriceIntelligence = () => {
   const [months, setMonths] = useState(6);
@@ -44,7 +46,6 @@ const PriceIntelligence = () => {
 
       // Debug: Log the first item to see field names
       if (sortedHistorical.length > 0) {
-        console.log('Most recent price data:', sortedHistorical[0]);
       }
 
       setHistoricalData(sortedHistorical);
@@ -69,7 +70,6 @@ const PriceIntelligence = () => {
       }
 
       const result = await response.json();
-      console.log('Price prediction result:', result);
       setPredictions(result);
     } catch (err) {
       console.error('Prediction error:', err);
@@ -107,10 +107,40 @@ const PriceIntelligence = () => {
     return (highest - lowest).toFixed(2);
   };
 
+  const downloadPDF = () => {
+
+  if (!predictions?.predictions || predictions.predictions.length === 0) {
+    alert("No prediction data available");
+    return;
+  }
+
+  const doc = new jsPDF();
+
+  doc.setFontSize(18);
+  doc.text("Rubber Price Forecast Report", 14, 20);
+
+  doc.setFontSize(11);
+  doc.text(`Forecast Period: ${months} months`, 14, 30);
+
+  const tableData = predictions.predictions.map((p) => [
+    `${p.month} ${p.year}`,
+    `LKR ${Number(p.predicted_price_lkr).toFixed(2)}`,
+    p.confidence_level
+  ]);
+
+  autoTable(doc, {
+    head: [["Month", "Predicted Price (LKR)", "Confidence"]],
+    body: tableData,
+    startY: 40
+  });
+
+  doc.save(`rubber_price_forecast_${months}_months.pdf`);
+};
+
   return (
     <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
       <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-        Price Intelligence 💰
+        Price Intelligence 
       </h1>
       <p style={{ color: '#666', marginBottom: '2rem' }}>
         AI-powered rubber price forecasting and market analysis
@@ -143,7 +173,7 @@ const PriceIntelligence = () => {
         </h3>
 
         <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-          {[3, 6, 12, 24].map((m) => (
+          {[3, 6, 12, 24,36].map((m) => (
             <button
               key={m}
               onClick={() => handleMonthChange(m)}
@@ -181,6 +211,22 @@ const PriceIntelligence = () => {
         >
           {loading ? 'Generating Forecast...' : 'Generate Forecast'}
         </button>
+        <button
+  onClick={downloadPDF}
+  disabled={!predictions?.predictions}
+  style={{
+    marginLeft: "10px",
+    padding: "0.875rem 2rem",
+    background: "#16a34a",
+    color: "white",
+    border: "none",
+    borderRadius: "0.5rem",
+    fontWeight: "600",
+    cursor: "pointer"
+  }}
+>
+  Download PDF
+</button>
       </div>
 
       {/* Model Info */}
@@ -193,7 +239,7 @@ const PriceIntelligence = () => {
           border: '1px solid #bfdbfe'
         }}>
           <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.75rem', color: '#1e40af' }}>
-            📊 Model Performance
+             Model Performance
           </h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             <div>
@@ -228,7 +274,7 @@ const PriceIntelligence = () => {
               borderLeft: '4px solid #3b82f6'
             }}>
               <p style={{ fontSize: '0.875rem', color: '#374151', fontWeight: '500' }}>
-                📈 {predictions.market_context.trend}
+                 {predictions.market_context.trend}
               </p>
               <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: '0.25rem' }}>
                 {predictions.market_context.note}
@@ -249,7 +295,7 @@ const PriceIntelligence = () => {
           border: '1px solid #e5e7eb'
         }}>
           <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            📊 Recent Historical Prices
+             Recent Historical Prices
           </h3>
           <p style={{ fontSize: '0.75rem', color: '#6b7280', marginBottom: '1rem' }}>
             Latest 8 months from database
@@ -305,7 +351,7 @@ const PriceIntelligence = () => {
           border: '1px solid #e5e7eb'
         }}>
           <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            💡 Forecast Statistics
+             Forecast Statistics
           </h3>
 
           {predictions?.predictions && predictions.predictions.length > 0 ? (

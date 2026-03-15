@@ -11,19 +11,18 @@
 
 .navContainer {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
+  padding: 0 20px; 
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 60px;
 }
-
-.logo{
-  width: 28%;
-}
-.logo img{
+.logo img {
+  height: 120px;
+  width: auto;
   cursor: pointer;
-  width: 68%;
 }
 
 .navLinks {
@@ -69,7 +68,6 @@
   background-color: #15803d; /* darker green */
 }
 
-/* Hamburger for mobile */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -91,6 +89,41 @@
   gap: 1rem;
   background: white;
   padding: 1rem;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.mobileMenu.active {
+  display: flex;
+}
+
+@media (max-width: 992px) {
+  .logo img {
+    height: 80px;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .logo img {
+    height: 60px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .logo img {
+    height: 45px;
+  }
+}
+@media (max-width: 992px) {
+  .navContainer {
+    max-width: 90%;
+    height: 60px;
+  }
 }
 
 @media (max-width: 768px) {

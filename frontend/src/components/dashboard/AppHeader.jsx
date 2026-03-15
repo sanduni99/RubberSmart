@@ -48,11 +48,13 @@ const AppHeader = () => {
         </CHeaderToggler>
 
         <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink onClick={() => navigate("/dashboard")}>
-              Dashboard
-            </CNavLink>
-          </CNavItem>
+          <CNavLink
+  onClick={() =>
+    navigate(user?.role === "admin" ? "/admin/dashboard" : "/dashboard")
+  }
+>
+  Dashboard
+</CNavLink>
 
           <CNavItem>
             <CNavLink onClick={() => navigate("/dashboard/yield-prediction")}>

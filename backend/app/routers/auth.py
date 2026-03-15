@@ -22,7 +22,8 @@ def signup(user: UserSignup, db: Session = Depends(get_db)):
         phone=user.phone,
         district=user.district,
         preferred_language=user.preferred_language,
-        password_hash=hash_password(user.password)
+        password_hash=hash_password(user.password),
+       role=user.role
     )
 
     db.add(new_user)
@@ -47,7 +48,8 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
         "email": db_user.email,
         "phone": db_user.phone,
         "district": db_user.district,
-        "preferred_language": db_user.preferred_language
+        "preferred_language": db_user.preferred_language,
+        "role": db_user.role
     }
 }
     

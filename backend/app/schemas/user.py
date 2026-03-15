@@ -8,6 +8,7 @@ class UserSignup(BaseModel):
     phone: Optional[str] = None
     district: Optional[str] = None
     preferred_language: str = "en"
+    role: Optional[str] = "farmer"
 
 class UserLogin(BaseModel):
     email: EmailStr

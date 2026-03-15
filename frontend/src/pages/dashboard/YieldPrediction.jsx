@@ -1,5 +1,17 @@
-// frontend/src/pages/dashboard/YieldPrediction.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import html2canvas from "html2canvas";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Tooltip,
+  Legend
+} from "chart.js";
 
 const YieldPrediction = () => {
   const [months, setMonths] = useState(6);
@@ -8,6 +20,7 @@ const YieldPrediction = () => {
   const [viewMode, setViewMode] = useState('total'); // 'total' or 'breakdown'
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+const chartRef = useRef(null);
 
   // Auto-load predictions on mount
   // useEffect(() => {
@@ -19,9 +32,7 @@ const YieldPrediction = () => {
     setError(null);
 
     try {
-      console.log('Fetching predictions...');
-      
-      // Fetch both total and breakdown predictions
+
       const [totalResponse, breakdownResponse] = await Promise.all([
         fetch(`http://127.0.0.1:8000/api/predictions/yield?months=${months}`, {
           method: 'GET',
@@ -37,8 +48,6 @@ const YieldPrediction = () => {
         })
       ]);
 
-      console.log('Total Response status:', totalResponse.status);
-      console.log('Breakdown Response status:', breakdownResponse.status);
 
       if (!totalResponse.ok) {
         const errorText = await totalResponse.text();
@@ -55,8 +64,6 @@ const YieldPrediction = () => {
       const totalData = await totalResponse.json();
       const breakdownData = await breakdownResponse.json();
 
-      console.log('Total data received:', totalData);
-      console.log('Breakdown data received:', breakdownData);
 
       setPredictions(totalData);
       setTypeBreakdown(breakdownData);
@@ -81,6 +88,102 @@ const YieldPrediction = () => {
       default: return '#6b7280';
     }
   };
+
+
+const downloadPDF = async () => {
+
+  if (!predictions?.predictions) {
+    alert("Generate prediction first");
+    return;
+  }
+
+  const doc = new jsPDF();
+
+  const loadImage = (src) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = src;
+      img.onload = () => resolve(img);
+    });
+  };
+
+  const logo = await loadImage("/assets/images/vector_images/logo_1.png");
+
+  doc.addImage(logo, "PNG", 14, 10, 30, 15);
+
+  doc.setFontSize(18);
+  doc.text("RubberSmart Yield Forecast Report", 50, 20);
+
+  const today = new Date().toLocaleDateString();
+
+  doc.setFontSize(11);
+  doc.text(`Generated Date: ${today}`, 14, 35);
+  doc.text(`Forecast Period: ${months} months`, 14, 42);
+
+
+
+  const tableData = predictions.predictions.map((p) => [
+    `${p.month} ${p.year}`,
+    `${p.predicted_yield_mt?.toLocaleString()} MT`,
+    p.confidence_level || "High"
+  ]);
+
+  autoTable(doc, {
+    head: [["Month", "Predicted Yield (MT)", "Confidence"]],
+    body: tableData,
+    startY: 50
+  });
+
+
+
+ const chart = chartRef.current;
+
+if (chart) {
+  const chartImage = chart.toBase64Image();
+
+  doc.addPage();
+
+  doc.setFontSize(16);
+  doc.text("Yield Forecast Chart", 14, 20);
+
+  doc.addImage(chartImage, "PNG", 10, 30, 190, 100);
+}
+
+
+
+  if (typeBreakdown?.predictions) {
+
+    const rubberTypes = ["Sheet","Sole","Crepe","Scrap","Crepe Latex","Crepe TSR"];
+
+    const typeRows = typeBreakdown.predictions.map(p => {
+
+      const row = [`${p.month} ${p.year}`];
+
+      rubberTypes.forEach(type=>{
+        row.push(p.types[type] ? p.types[type].toLocaleString() : "-");
+      });
+
+      row.push(p.types.Total ? p.types.Total.toLocaleString() : "-");
+
+      return row;
+    });
+
+    doc.addPage();
+
+    doc.setFontSize(16);
+    doc.text("Rubber Production Forecast by Type", 14, 20);
+
+    autoTable(doc,{
+      startY:30,
+      head:[["Month",...rubberTypes,"Total"]],
+      body:typeRows
+    });
+
+  }
+
+  doc.save(`rubber_yield_forecast_${months}_months.pdf`);
+};
 
   return (
     <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
@@ -191,22 +294,41 @@ const YieldPrediction = () => {
           ))}
         </div>
 
-        <button
-          onClick={handlePredict}
-          disabled={loading}
-          style={{
-            padding: '0.875rem 2rem',
-            background: loading ? '#9ca3af' : '#10b981',
-            color: 'white',
-            border: 'none',
-            borderRadius: '0.5rem',
-            fontWeight: '600',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            fontSize: '1rem'
-          }}
-        >
-          {loading ? 'Generating Forecast...' : 'Generate Forecast'}
-        </button>
+       <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+
+<button
+  onClick={handlePredict}
+  disabled={loading}
+  style={{
+    padding: '0.875rem 2rem',
+    background: loading ? '#9ca3af' : '#10b981',
+    color: 'white',
+    border: 'none',
+    borderRadius: '0.5rem',
+    fontWeight: '600',
+    cursor: loading ? 'not-allowed' : 'pointer'
+  }}
+>
+  {loading ? 'Generating Forecast...' : 'Generate Forecast'}
+</button>
+
+<button
+  onClick={downloadPDF}
+  disabled={!predictions}
+  style={{
+    padding: '0.875rem 2rem',
+    background: '#3b82f6',
+    color: 'white',
+    border: 'none',
+    borderRadius: '0.5rem',
+    fontWeight: '600',
+    cursor: 'pointer'
+  }}
+>
+  Download PDF
+</button>
+
+</div>
       </div>
 
       {/* Loading State */}
@@ -228,14 +350,20 @@ const YieldPrediction = () => {
         </div>
       )}
 
-      {/* Content Views */}
+      <div
+  id="prediction-chart"
+  style={{
+    background: "white",
+    padding: "20px",
+  }}
+>
       {!loading && predictions && viewMode === 'total' && (
         <TotalProductionView 
           predictions={predictions} 
           getReliabilityColor={getReliabilityColor}
         />
       )}
-      
+      </div>
       {!loading && typeBreakdown && viewMode === 'breakdown' && (
         <TypeBreakdownView 
           typeBreakdown={typeBreakdown} 
@@ -281,6 +409,19 @@ const TotalProductionView = ({ predictions, getReliabilityColor }) => {
     (p.predicted_yield_mt || 0) > (max.predicted_yield_mt || 0) ? p : max
   , predictions.predictions[0]);
 
+  const chartData = {
+  labels: predictions.predictions.map(p => `${p.month} ${p.year}`),
+  datasets: [
+    {
+      label: "Predicted Yield (MT)",
+      data: predictions.predictions.map(p => p.predicted_yield_mt),
+      borderColor: "#10b981",
+      backgroundColor: "rgba(16,185,129,0.2)",
+      tension: 0.4
+    }
+  ]
+};
+
   return (
     <>
       {/* Model Info */}
@@ -319,6 +460,9 @@ const TotalProductionView = ({ predictions, getReliabilityColor }) => {
             Production Forecast
           </h3>
         </div>
+        <div style={{height:"400px", marginBottom:"30px"}}>
+<Line ref={chartRef} data={chartData} />
+</div>
         
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>

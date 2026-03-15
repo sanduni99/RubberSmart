@@ -1,0 +1,139 @@
+.usersContainer{
+  padding:40px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.title{
+  font-size:28px;
+  font-weight:600;
+}
+
+.backButton{
+  padding:8px 18px;
+  background:#2e7d32;
+  color:white;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+  transition:0.2s;
+}
+
+.backButton:hover{
+  background:#1b5e20;
+}
+
+.tableWrapper{
+  background:white;
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table thead{
+  background:#f5f7f6;
+}
+
+.table th{
+  text-align:left;
+  padding:14px;
+  font-weight:600;
+  font-size:14px;
+}
+
+.table td{
+  padding:14px;
+  border-top:1px solid #eee;
+  font-size:14px;
+}
+
+.table tbody tr:hover{
+  background:#f9fafb;
+}
+
+.roleAdmin{
+  background:#e8f5e9;
+  color:#2e7d32;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.roleFarmer{
+  background:#e3f2fd;
+  color:#1565c0;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+}
+
+.actions button{
+  margin-right:8px;
+  padding:6px 10px;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+}
+
+.editBtn{
+  padding:6px 12px;
+  background:#1976d2;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.editBtn:hover{
+  background:#125ea9;
+}
+
+.deleteBtn{
+  padding:6px 12px;
+  background:#e53935;
+  color:white;
+  border:none;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.deleteBtn:hover{
+  background:#b71c1c;
+}
+
+.roleSelect{
+  padding:5px;
+  border-radius:4px;
+  border:1px solid #ccc;
+}
+/* Responsive */
+
+@media(max-width:768px){
+
+  .usersContainer{
+    padding:20px;
+  }
+
+  .tableWrapper{
+    overflow-x:auto;
+  }
+
+}

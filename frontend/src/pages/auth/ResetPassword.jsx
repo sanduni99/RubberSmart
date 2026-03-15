@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./ResetPassword.module.css";
 
 const ResetPassword = () => {
   const [email, setEmail] = useState("");
@@ -25,21 +26,42 @@ const ResetPassword = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className={styles.resetContainer}>
+  <div className={styles.resetCard}>
+    <h2 className={styles.title}>Reset Password</h2>
+
+    <p className={styles.subtitle}>
+      Enter your new password below.
+    </p>
+
+    <form onSubmit={handleSubmit} className={styles.form}>
       <input
         type="email"
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
+        required
+        className={styles.input}
       />
 
       <input
         type="password"
         placeholder="New Password"
         onChange={(e) => setPassword(e.target.value)}
+        required
+        className={styles.input}
       />
 
-      <button type="submit">Reset Password</button>
+      <button type="submit" className={styles.button}>
+        Reset Password
+      </button>
     </form>
+
+    <div className={styles.signupPrompt}>
+      <span>Remember your password? </span>
+      <a href="/login">Back to Login</a>
+    </div>
+  </div>
+</div>
   );
 };
 

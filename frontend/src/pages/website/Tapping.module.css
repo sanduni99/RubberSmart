@@ -32,3 +32,25 @@ margin-left: 35%;
     margin-bottom: 1rem;
     text-align: center;
 }
+
+@media (max-width: 768px) {
+
+  .tappinghead {
+    height: 60vh;
+    padding: 20px;
+  }
+
+  .tappingTitle {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .tappingContent {
+    padding: 2rem 1rem;
+  }
+
+  .tappingContentTitle {
+    font-size: 1.6rem;
+  }
+
+}

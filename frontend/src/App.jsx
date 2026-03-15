@@ -21,7 +21,8 @@ import Login from './pages/auth/login';
 import Signup from './pages/auth/signup';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
-
+import AdminDashboard from './pages/admin/AdminDashboard';
+import Users from "./pages/admin/Users";
 // Dashboard pages
 import Dashboard from './pages/dashboard/Dashboard';
 import YieldPrediction from './pages/dashboard/YieldPrediction';
@@ -48,6 +49,17 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+         <Route
+  path="/admin/dashboard"
+  element={
+    <ProtectedRoute>
+      <DashboardLayout />
+    </ProtectedRoute>
+  }
+>
+  <Route index element={<AdminDashboard />} />
+</Route>
+<Route path="/admin/users" element={<Users />} />
 
           {/* Protected Dashboard Routes */}
           <Route 

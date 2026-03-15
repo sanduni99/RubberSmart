@@ -26,7 +26,11 @@ const handleSubmit = async (e) => {
 
     login(data.access_token, data.user);
 
-    navigate("/dashboard");
+    if (data.user.role === "admin") {
+      navigate("/admin/dashboard");
+    } else {
+      navigate("/dashboard");
+    }
 
   } catch (err) {
     setError(err.message || "Login failed");

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import DateTime
 from datetime import datetime
@@ -38,6 +38,8 @@ class User(Base):
     password_hash = Column(String)
     district = Column(String)
     preferred_language = Column(String, default="en")
+    role = Column(String, default="farmer")
+    is_active = Column(Boolean, default=True)
     # reset_token = Column(String, nullable=True)
     # reset_token_expires_at = Column(DateTime, nullable=True)
 
