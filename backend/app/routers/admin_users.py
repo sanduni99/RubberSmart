@@ -6,7 +6,7 @@ from app.models import User
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
 
-# Get all users
+
 @router.get("/users")
 def get_all_users(db: Session = Depends(get_db)):
 
@@ -26,7 +26,7 @@ def get_all_users(db: Session = Depends(get_db)):
     ]
 
 
-# Update user
+
 @router.put("/users/{user_id}")
 def update_user(user_id: int, data: dict, db: Session = Depends(get_db)):
 

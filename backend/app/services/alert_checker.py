@@ -1,4 +1,4 @@
-# app/services/alert_checker.py
+
 
 from sqlalchemy.orm import Session
 from app.models import PriceAlert, Price, User
@@ -6,7 +6,7 @@ from app.database import SessionLocal
 from datetime import datetime
 import logging
 
-# Import email service
+
 from app.services.email_service import send_price_alert_email
 
 logger = logging.getLogger(__name__)
@@ -15,7 +15,7 @@ def check_price_alerts():
     db = SessionLocal()
 
     try:
-        logger.info("🔍 Checking price alerts...")
+        logger.info(" Checking price alerts...")
 
         active_alerts = db.query(PriceAlert).filter(
             PriceAlert.is_active == True,
@@ -40,7 +40,7 @@ def check_price_alerts():
 
         for alert in active_alerts:
 
-            current_price = current_market_price   # ✅ FIXED
+            current_price = current_market_price 
 
             should_trigger = False
 
@@ -58,10 +58,10 @@ def check_price_alerts():
                 send_alert_notification(alert, current_price, db)
 
         db.commit()
-        logger.info(f"✅ Checked {len(active_alerts)} alerts, triggered {triggered_count}")
+        logger.info(f" Checked {len(active_alerts)} alerts, triggered {triggered_count}")
 
     except Exception as e:
-        logger.error(f"❌ Error checking alerts: {str(e)}")
+        logger.error(f" Error checking alerts: {str(e)}")
         db.rollback()
 
     finally:
@@ -72,25 +72,25 @@ def check_price_alerts():
 def send_alert_notification(alert: PriceAlert, current_price: float, db: Session):
     """Send email notification when alert is triggered"""
     
-    # Get user info
+
     user = db.query(User).filter(User.id == alert.user_id).first()
     
     if not user or not user.email:
         logger.warning(f"   User {alert.user_id} has no email address")
         return
     
-    # Check if email alerts are enabled
+
     import os
     if os.getenv('ENABLE_EMAIL_ALERTS', 'true').lower() != 'true':
         logger.info(f"   Email alerts disabled in .env")
         return
     
-    # Only send email if user opted in
+
     if not alert.notify_email:
         logger.info(f"   User {user.id} opted out of email notifications")
         return
     
-    # Prepare alert data
+
     alert_data = {
         'rubber_type': alert.rubber_type,
         'current_price': current_price,
@@ -98,11 +98,11 @@ def send_alert_notification(alert: PriceAlert, current_price: float, db: Session
         'alert_type': alert.alert_type
     }
     
-    # Send email
-    logger.info(f"   📧 Sending email to {user.email}...")
+
+    logger.info(f"    Sending email to {user.email}...")
     success = send_price_alert_email(user.email, alert_data)
     
     if success:
-        logger.info(f"   ✅ Email sent to {user.email}")
+        logger.info(f"    Email sent to {user.email}")
     else:
-        logger.error(f"   ❌ Failed to send email to {user.email}")
+        logger.error(f"    Failed to send email to {user.email}")

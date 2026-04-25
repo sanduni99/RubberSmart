@@ -16,7 +16,7 @@ def create_contact_message(
     db: Session = Depends(get_db)
 ):
 
-    # Save to DB
+
     new_message = ContactMessage(
         name=contact_message.name,
         email=contact_message.email,
@@ -27,7 +27,7 @@ def create_contact_message(
     db.commit()
     db.refresh(new_message)
 
-    # Send Email
+
     try:
         msg = MIMEText(
             f"New Contact Message\n\n"

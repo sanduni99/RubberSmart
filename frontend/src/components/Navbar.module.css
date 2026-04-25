@@ -1,8 +1,8 @@
-/* Navbar.module.css */
+
 
 .nav {
   background-color: rgb(247, 248, 246);
-  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+
   padding: 0 1rem;
   position: sticky;
   top: 0;
@@ -32,7 +32,7 @@
 
 .navLink {
   text-decoration: none;
-  color: #374151; /* gray-700 */
+  color: #374151; 
   font-weight: 500;
   font-family: 'Instrument Sans', sans-serif;
 }
@@ -65,7 +65,7 @@
 }
 
 .signupBtn:hover {
-  background-color: #15803d; /* darker green */
+  background-color: #15803d;
 }
 
 .hamburger {
@@ -82,7 +82,7 @@
   transition: 0.3s;
 }
 
-/* Mobile menu */
+
 .mobileMenu {
   display: none;
   flex-direction: column;

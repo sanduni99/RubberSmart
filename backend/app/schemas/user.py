@@ -19,3 +19,11 @@ class ForgotPassword(BaseModel):
 class ResetPassword(BaseModel):
     email: EmailStr
     new_password: str    
+    
+class UpdateUser(BaseModel):
+    current_email: str
+    new_email: str
+    name: str
+    phone: str
+    district: str
+    preferred_language: str

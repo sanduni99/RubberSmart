@@ -1,0 +1,562 @@
+{
+  "metadata": {
+    "generated_date": "2026-04-21 12:30:13",
+    "version": "2.0",
+    "forecast_type": "long_term"
+  },
+  "predictions": [
+    {
+      "month": "January",
+      "year": 2024,
+      "predicted_price_lkr": 355.12,
+      "confidence_level": "High"
+    },
+    {
+      "month": "February",
+      "year": 2024,
+      "predicted_price_lkr": 356.55,
+      "confidence_level": "High"
+    },
+    {
+      "month": "March",
+      "year": 2024,
+      "predicted_price_lkr": 350.96,
+      "confidence_level": "High"
+    },
+    {
+      "month": "April",
+      "year": 2024,
+      "predicted_price_lkr": 352.35,
+      "confidence_level": "High"
+    },
+    {
+      "month": "May",
+      "year": 2024,
+      "predicted_price_lkr": 353.73,
+      "confidence_level": "High"
+    },
+    {
+      "month": "June",
+      "year": 2024,
+      "predicted_price_lkr": 349.76,
+      "confidence_level": "High"
+    },
+    {
+      "month": "July",
+      "year": 2024,
+      "predicted_price_lkr": 351.08,
+      "confidence_level": "High"
+    },
+    {
+      "month": "August",
+      "year": 2024,
+      "predicted_price_lkr": 352.37,
+      "confidence_level": "High"
+    },
+    {
+      "month": "September",
+      "year": 2024,
+      "predicted_price_lkr": 359.02,
+      "confidence_level": "High"
+    },
+    {
+      "month": "October",
+      "year": 2024,
+      "predicted_price_lkr": 360.27,
+      "confidence_level": "High"
+    },
+    {
+      "month": "November",
+      "year": 2024,
+      "predicted_price_lkr": 368.71,
+      "confidence_level": "High"
+    },
+    {
+      "month": "December",
+      "year": 2024,
+      "predicted_price_lkr": 369.9,
+      "confidence_level": "High"
+    },
+    {
+      "month": "January",
+      "year": 2025,
+      "predicted_price_lkr": 371.06,
+      "confidence_level": "High"
+    },
+    {
+      "month": "February",
+      "year": 2025,
+      "predicted_price_lkr": 372.16,
+      "confidence_level": "High"
+    },
+    {
+      "month": "March",
+      "year": 2025,
+      "predicted_price_lkr": 365.89,
+      "confidence_level": "High"
+    },
+    {
+      "month": "April",
+      "year": 2025,
+      "predicted_price_lkr": 366.87,
+      "confidence_level": "High"
+    },
+    {
+      "month": "May",
+      "year": 2025,
+      "predicted_price_lkr": 367.8,
+      "confidence_level": "High"
+    },
+    {
+      "month": "June",
+      "year": 2025,
+      "predicted_price_lkr": 363.14,
+      "confidence_level": "High"
+    },
+    {
+      "month": "July",
+      "year": 2025,
+      "predicted_price_lkr": 363.95,
+      "confidence_level": "High"
+    },
+    {
+      "month": "August",
+      "year": 2025,
+      "predicted_price_lkr": 364.69,
+      "confidence_level": "High"
+    },
+    {
+      "month": "September",
+      "year": 2025,
+      "predicted_price_lkr": 370.95,
+      "confidence_level": "High"
+    },
+    {
+      "month": "October",
+      "year": 2025,
+      "predicted_price_lkr": 371.59,
+      "confidence_level": "High"
+    },
+    {
+      "month": "November",
+      "year": 2025,
+      "predicted_price_lkr": 379.61,
+      "confidence_level": "High"
+    },
+    {
+      "month": "December",
+      "year": 2025,
+      "predicted_price_lkr": 380.14,
+      "confidence_level": "High"
+    },
+    {
+      "month": "January",
+      "year": 2026,
+      "predicted_price_lkr": 380.61,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "February",
+      "year": 2026,
+      "predicted_price_lkr": 381.03,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "March",
+      "year": 2026,
+      "predicted_price_lkr": 373.9,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "April",
+      "year": 2026,
+      "predicted_price_lkr": 374.2,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "May",
+      "year": 2026,
+      "predicted_price_lkr": 374.44,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "June",
+      "year": 2026,
+      "predicted_price_lkr": 369.0,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "July",
+      "year": 2026,
+      "predicted_price_lkr": 369.14,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "August",
+      "year": 2026,
+      "predicted_price_lkr": 369.24,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "September",
+      "year": 2026,
+      "predicted_price_lkr": 374.91,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "October",
+      "year": 2026,
+      "predicted_price_lkr": 374.92,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "November",
+      "year": 2026,
+      "predicted_price_lkr": 382.39,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "December",
+      "year": 2026,
+      "predicted_price_lkr": 382.34,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "January",
+      "year": 2027,
+      "predicted_price_lkr": 382.25,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "February",
+      "year": 2027,
+      "predicted_price_lkr": 382.14,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "March",
+      "year": 2027,
+      "predicted_price_lkr": 374.52,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "April",
+      "year": 2027,
+      "predicted_price_lkr": 374.37,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "May",
+      "year": 2027,
+      "predicted_price_lkr": 374.21,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "June",
+      "year": 2027,
+      "predicted_price_lkr": 368.44,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "July",
+      "year": 2027,
+      "predicted_price_lkr": 368.28,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "August",
+      "year": 2027,
+      "predicted_price_lkr": 368.12,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "September",
+      "year": 2027,
+      "predicted_price_lkr": 373.57,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "October",
+      "year": 2027,
+      "predicted_price_lkr": 373.43,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "November",
+      "year": 2027,
+      "predicted_price_lkr": 380.77,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "December",
+      "year": 2027,
+      "predicted_price_lkr": 380.67,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "January",
+      "year": 2028,
+      "predicted_price_lkr": 380.59,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "February",
+      "year": 2028,
+      "predicted_price_lkr": 380.54,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "March",
+      "year": 2028,
+      "predicted_price_lkr": 373.06,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "April",
+      "year": 2028,
+      "predicted_price_lkr": 373.09,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "May",
+      "year": 2028,
+      "predicted_price_lkr": 373.16,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "June",
+      "year": 2028,
+      "predicted_price_lkr": 367.68,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "July",
+      "year": 2028,
+      "predicted_price_lkr": 367.84,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "August",
+      "year": 2028,
+      "predicted_price_lkr": 368.05,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "September",
+      "year": 2028,
+      "predicted_price_lkr": 373.93,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "October",
+      "year": 2028,
+      "predicted_price_lkr": 374.26,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "November",
+      "year": 2028,
+      "predicted_price_lkr": 382.14,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "December",
+      "year": 2028,
+      "predicted_price_lkr": 382.6,
+      "confidence_level": "Moderate"
+    },
+    {
+      "month": "January",
+      "year": 2029,
+      "predicted_price_lkr": 383.13,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "February",
+      "year": 2029,
+      "predicted_price_lkr": 383.72,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "March",
+      "year": 2029,
+      "predicted_price_lkr": 376.84,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "April",
+      "year": 2029,
+      "predicted_price_lkr": 377.56,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "May",
+      "year": 2029,
+      "predicted_price_lkr": 378.34,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "June",
+      "year": 2029,
+      "predicted_price_lkr": 373.49,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "July",
+      "year": 2029,
+      "predicted_price_lkr": 374.39,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "August",
+      "year": 2029,
+      "predicted_price_lkr": 375.36,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "September",
+      "year": 2029,
+      "predicted_price_lkr": 382.11,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "October",
+      "year": 2029,
+      "predicted_price_lkr": 383.21,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "November",
+      "year": 2029,
+      "predicted_price_lkr": 392.07,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "December",
+      "year": 2029,
+      "predicted_price_lkr": 393.31,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "January",
+      "year": 2030,
+      "predicted_price_lkr": 394.61,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "February",
+      "year": 2030,
+      "predicted_price_lkr": 395.96,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "March",
+      "year": 2030,
+      "predicted_price_lkr": 389.58,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "April",
+      "year": 2030,
+      "predicted_price_lkr": 391.0,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "May",
+      "year": 2030,
+      "predicted_price_lkr": 392.46,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "June",
+      "year": 2030,
+      "predicted_price_lkr": 388.05,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "July",
+      "year": 2030,
+      "predicted_price_lkr": 389.56,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "August",
+      "year": 2030,
+      "predicted_price_lkr": 391.1,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "September",
+      "year": 2030,
+      "predicted_price_lkr": 398.65,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "October",
+      "year": 2030,
+      "predicted_price_lkr": 400.25,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "November",
+      "year": 2030,
+      "predicted_price_lkr": 409.91,
+      "confidence_level": "Low"
+    },
+    {
+      "month": "December",
+      "year": 2030,
+      "predicted_price_lkr": 411.57,
+      "confidence_level": "Low"
+    }
+  ],
+  "model_info": {
+    "model_type": "Long-term Trend Projection",
+    "base_growth_rate": "2.19%",
+    "adjusted_growth_rate": "2.19%",
+    "forecast_period": "7 years (84 months)",
+    "forecast_end_year": 2030,
+    "historical_data_points": 288,
+    "data_range": "2000-01 to 2023-12"
+  },
+  "market_context": {
+    "current_market": {
+      "last_price": "346.75 LKR",
+      "last_date": "December 2023",
+      "historical_average": "301.27 LKR",
+      "historical_min": "259.40 LKR",
+      "historical_max": "346.75 LKR"
+    },
+    "growth_assumptions": {
+      "short_term": "5.62%",
+      "medium_term": "2.09%",
+      "long_term": "1.81%"
+    },
+    "market_outlook": "Projected 2.19% annual growth over 7 years",
+    "uncertainty_note": "Longer-term forecasts have higher uncertainty",
+    "recommendations": [
+      "Monitor actual prices quarterly",
+      "Update forecasts annually with new data",
+      "Consider external factors (global prices, exchange rates)"
+    ]
+  },
+  "summary_statistics": {
+    "starting_price": 346.75,
+    "ending_price": 411.57,
+    "total_growth_percentage": 18.69,
+    "average_price": 375.57,
+    "price_range": {
+      "min": 349.76,
+      "max": 411.57
+    },
+    "yearly_averages": {
+      "2024": 356.65,
+      "2025": 369.82,
+      "2026": 375.51,
+      "2027": 375.06,
+      "2028": 374.75,
+      "2029": 381.13,
+      "2030": 396.06
+    }
+  }
+}

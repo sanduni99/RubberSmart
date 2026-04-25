@@ -40,8 +40,7 @@ class User(Base):
     preferred_language = Column(String, default="en")
     role = Column(String, default="farmer")
     is_active = Column(Boolean, default=True)
-    # reset_token = Column(String, nullable=True)
-    # reset_token_expires_at = Column(DateTime, nullable=True)
+
 
 
 class ContactMessage(Base):

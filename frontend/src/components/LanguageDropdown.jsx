@@ -43,6 +43,7 @@ const LanguageDropdown = () => {
                 >
                     <button onClick={(e) => changeLang("en", e)}>EN</button>
                     <button onClick={(e) => changeLang("si", e)}>සි</button>
+                     <button onClick={(e) => changeLang("ta", e)}>தமிழ்</button>
                 </div>
             )}
         </div>

@@ -1,7 +1,8 @@
-// frontend/src/pages/dashboard/PriceIntelligence.jsx
+
 import React, { useState, useEffect } from 'react';
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import styles from './PriceIntelligence.module.css';
 
 const PriceIntelligence = () => {
   const [months, setMonths] = useState(6);
@@ -10,7 +11,7 @@ const PriceIntelligence = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Load historical data and initial predictions
+
   useEffect(() => {
     loadData();
   }, []);
@@ -20,9 +21,8 @@ const PriceIntelligence = () => {
       setLoading(true);
       setError(null);
 
-      // Load both historical prices (most recent first) and predictions
       const [historicalResponse, predictionsResponse] = await Promise.all([
-        fetch('http://localhost:8000/api/prices?skip=0&limit=12'),  // Get latest 12 records
+        fetch('http://localhost:8000/api/prices?skip=0&limit=12'), 
         fetch(`http://localhost:8000/api/predictions/price?months=${months}`)
       ]);
 
@@ -33,18 +33,18 @@ const PriceIntelligence = () => {
       const historical = await historicalResponse.json();
       const pricePredictions = await predictionsResponse.json();
 
-      // Sort historical data by year and month (most recent first)
+     
       const sortedHistorical = historical.sort((a, b) => {
         if (b.Year !== a.Year) {
-          return b.Year - a.Year; // Sort by year descending
+          return b.Year - a.Year; 
         }
-        // If same year, sort by month
+       
         const months = ['January', 'February', 'March', 'April', 'May', 'June', 
                        'July', 'August', 'September', 'October', 'November', 'December'];
         return months.indexOf(b.Month) - months.indexOf(a.Month);
       });
 
-      // Debug: Log the first item to see field names
+      
       if (sortedHistorical.length > 0) {
       }
 
@@ -83,7 +83,7 @@ const PriceIntelligence = () => {
     setMonths(newMonths);
   };
 
-  // Calculate statistics
+  
   const getAveragePrice = () => {
     if (!predictions?.predictions || predictions.predictions.length === 0) return 0;
     const sum = predictions.predictions.reduce((acc, p) => acc + Number(p.predicted_price_lkr), 0);
@@ -138,57 +138,27 @@ const PriceIntelligence = () => {
 };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-        Price Intelligence 
-      </h1>
-      <p style={{ color: '#666', marginBottom: '2rem' }}>
-        AI-powered rubber price forecasting and market analysis
-      </p>
+   <div className={styles.container}>
+      <h1 className={styles.title}>Price Intelligence</h1>
+<p className={styles.subtitle}>
+  AI-powered rubber price forecasting and market analysis
+</p>
 
-      {error && (
-        <div style={{
-          padding: '1rem',
-          background: '#fee2e2',
-          color: '#991b1b',
-          borderRadius: '0.5rem',
-          marginBottom: '1rem',
-          border: '1px solid #ef4444'
-        }}>
-          ⚠️ {error}
-        </div>
-      )}
+      {error && <div className={styles.errorBox}> {error}</div>}
 
-      {/* Forecast Period Selector */}
-      <div style={{
-        background: 'white',
-        padding: '1.5rem',
-        borderRadius: '0.75rem',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        border: '1px solid #e5e7eb',
-        marginBottom: '2rem'
-      }}>
+      
+      <div className={styles.card}>
         <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '1rem' }}>
           Forecast Period
         </h3>
 
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+        <div className={styles.buttonGroup}>
           {[3, 6, 12, 24,36].map((m) => (
             <button
               key={m}
               onClick={() => handleMonthChange(m)}
               disabled={loading}
-              style={{
-                padding: '0.75rem 1.5rem',
-                background: months === m ? '#3b82f6' : 'white',
-                color: months === m ? 'white' : '#374151',
-                border: months === m ? 'none' : '2px solid #e5e7eb',
-                borderRadius: '0.5rem',
-                fontWeight: '600',
-                cursor: loading ? 'not-allowed' : 'pointer',
-                transition: 'all 0.2s',
-                opacity: loading ? 0.6 : 1
-              }}
+              className={`${styles.monthBtn} ${months === m ? styles.monthBtnActive : ''}`}
             >
               {m} months
             </button>
@@ -198,16 +168,7 @@ const PriceIntelligence = () => {
         <button
           onClick={handlePredict}
           disabled={loading}
-          style={{
-            padding: '0.875rem 2rem',
-            background: loading ? '#9ca3af' : '#3b82f6',
-            color: 'white',
-            border: 'none',
-            borderRadius: '0.5rem',
-            fontWeight: '600',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            fontSize: '1rem'
-          }}
+          className={styles.primaryBtn}
         >
           {loading ? 'Generating Forecast...' : 'Generate Forecast'}
         </button>
@@ -241,7 +202,7 @@ const PriceIntelligence = () => {
           <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '0.75rem', color: '#1e40af' }}>
              Model Performance
           </h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+          <div className={styles.grid}>
             <div>
               <p style={{ color: '#6b7280', fontSize: '0.875rem', marginBottom: '0.25rem' }}>R² Score</p>
               <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1e40af' }}>
@@ -284,9 +245,9 @@ const PriceIntelligence = () => {
         </div>
       )}
 
-      {/* Stats Grid */}
+     
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-        {/* Historical Prices */}
+      
         <div style={{
           background: 'white',
           padding: '1.5rem',
@@ -407,7 +368,7 @@ const PriceIntelligence = () => {
         </div>
       </div>
 
-      {/* Price Predictions Table */}
+     
       {loading ? (
         <div style={{
           background: 'white',
@@ -438,7 +399,7 @@ const PriceIntelligence = () => {
           </div>
 
           <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <table className={styles.table}>
               <thead>
                 <tr style={{ background: '#f9fafb', borderBottom: '2px solid #e5e7eb' }}>
                   <th style={{ padding: '1rem', textAlign: 'left', fontWeight: '600', color: '#374151' }}>
@@ -516,7 +477,7 @@ const PriceIntelligence = () => {
             </table>
           </div>
 
-          {/* Summary Footer */}
+         
           <div style={{ 
             padding: '1.5rem', 
             background: '#f9fafb', 
@@ -552,14 +513,7 @@ const PriceIntelligence = () => {
           </div>
         </div>
       ) : (
-        <div style={{
-          background: 'white',
-          padding: '4rem 2rem',
-          borderRadius: '0.75rem',
-          textAlign: 'center',
-          color: '#6b7280',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-        }}>
+        <div className={styles.loading}>
           <p style={{ fontSize: '3rem', marginBottom: '1rem' }}>💰</p>
           <p style={{ fontSize: '1.125rem', marginBottom: '0.5rem' }}>No predictions yet</p>
           <p style={{ fontSize: '0.875rem' }}>Click "Generate Forecast" to see price predictions</p>

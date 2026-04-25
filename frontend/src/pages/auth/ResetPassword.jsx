@@ -14,7 +14,7 @@ const ResetPassword = () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        email: email,        // or from token
+        email: email,        
         new_password: password
       })
     });

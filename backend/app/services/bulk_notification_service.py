@@ -32,8 +32,8 @@ def send_email_to_all_users(db: Session, subject: str, message: str):
         else:
             failed += 1
 
-    logger.info(f"✅ Success: {success}")
-    logger.info(f"❌ Failed: {failed}")
+    logger.info(f" Success: {success}")
+    logger.info(f" Failed: {failed}")
 
     return {
         "total": total,

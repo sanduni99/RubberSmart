@@ -8,7 +8,7 @@ print("="*60)
 print("DATA CLEANING")
 print("="*60)
 
-# Clean Production
+
 print("\n🧹 Cleaning: production")
 prod_df = pd.read_sql("SELECT * FROM production", engine)
 print(f"   Original rows: {len(prod_df)}")
@@ -20,10 +20,10 @@ prod_clean[numeric_cols] = prod_clean[numeric_cols].fillna(0)
 
 prod_clean.to_sql('production', engine, if_exists='replace', index=False)
 print(f"   Clean rows: {len(prod_clean)}")
-print("   ✅ Saved to: production")
+print("    Saved to: production")
 
-# Clean Prices
-print("\n🧹 Cleaning: prices")
+
+print("\n Cleaning: prices")
 price_df = pd.read_sql("SELECT * FROM prices", engine)
 print(f"   Original rows: {len(price_df)}")
 
@@ -34,6 +34,6 @@ price_clean[numeric_cols] = price_clean[numeric_cols].fillna(0)
 
 price_clean.to_sql('prices', engine, if_exists='replace', index=False)
 print(f"   Clean rows: {len(price_clean)}")
-print("   ✅ Saved to: prices")
+print("    Saved to: prices")
 
-print("\n✅ Data cleaning complete!")
+print("\n Data cleaning complete!")

@@ -1,4 +1,4 @@
-// frontend/src/services/api.js
+
 const API_BASE_URL = 'http://127.0.0.1:8000';
 
 export const authApi = {
@@ -25,7 +25,7 @@ export const authApi = {
 
 export const contactApi = {
   sendMessage: async (data) => {
-    const res = await fetch(`${API_BASE_URL}/api/contact`, {
+    const res = await fetch(`${API_BASE_URL}/api/contact/contact`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const fetchAPI = async (endpoint, options = {}) => {
 };
 
 export const api = {
-  // Production endpoints
+
   production: {
     getAll: (skip = 0, limit = 100) => 
       fetchAPI(`/api/production?skip=${skip}&limit=${limit}`),
@@ -78,7 +78,7 @@ export const api = {
       fetchAPI('/api/production/latest'),
   },
 
-  // Price endpoints
+
   prices: {
     getAll: (skip = 0, limit = 100) => 
       fetchAPI(`/api/prices?skip=${skip}&limit=${limit}`),
@@ -86,13 +86,13 @@ export const api = {
       fetchAPI('/api/prices/latest'),
   },
 
-  // Stats endpoints
+
   stats: {
     get: () => 
       fetchAPI('/api/stats'),
   },
 
-  // Prediction endpoints - UPDATED to match your backend
+ 
   predictions: {
     predictYield: (months = 6) => 
       fetchAPI(`/api/predictions/yield?months=${months}`),

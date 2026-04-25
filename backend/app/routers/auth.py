@@ -7,6 +7,7 @@ from app.schemas.user import ForgotPassword, ResetPassword
 from app.core.security import hash_password, verify_password
 from app.core.jwt import create_access_token
 from app.services.email_service import send_email_notification
+from app.schemas.user import UpdateUser
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -23,7 +24,7 @@ def signup(user: UserSignup, db: Session = Depends(get_db)):
         district=user.district,
         preferred_language=user.preferred_language,
         password_hash=hash_password(user.password),
-       role=user.role
+        role=user.role
     )
 
     db.add(new_user)
@@ -31,7 +32,18 @@ def signup(user: UserSignup, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     token = create_access_token({"sub": new_user.email})
-    return {"access_token": token, "token_type": "bearer"}
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {
+            "name": new_user.name,
+            "email": new_user.email,
+            "phone": new_user.phone,
+            "district": new_user.district,
+            "preferred_language": new_user.preferred_language
+        }
+    }
 
 @router.post("/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
@@ -61,7 +73,7 @@ def forgot_password(data: ForgotPassword, db: Session = Depends(get_db)):
     if not db_user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Generate reset token
+ 
     reset_token = create_access_token({"sub": db_user.email})
 
     reset_link = f"http://localhost:5173/reset-password?token={reset_token}"
@@ -78,7 +90,7 @@ Click the link below to reset your password:<br><br>
 If you did not request this, please ignore this email.
 """
 
-    # Send email
+  
     email_sent = send_email_notification(
         db_user.email,
         subject,
@@ -102,3 +114,37 @@ def reset_password(data: ResetPassword, db: Session = Depends(get_db)):
     db.commit()
 
     return {"message": "Password reset successful"}
+
+
+@router.put("/update-profile")
+def update_profile(data: UpdateUser, db: Session = Depends(get_db)):
+
+    user = db.query(User).filter(User.email == data.current_email).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    existing = db.query(User).filter(User.email == data.new_email).first()
+
+    if existing and existing.id != user.id:
+        raise HTTPException(status_code=400, detail="Email already in use")
+
+    user.name = data.name
+    user.email = data.new_email
+    user.phone = data.phone
+    user.district = data.district
+    user.preferred_language = data.preferred_language
+
+    db.commit()
+    db.refresh(user)
+
+    return {
+        "message": "Profile updated successfully",
+        "user": {
+            "name": user.name,
+            "email": user.email,
+            "phone": user.phone,
+            "district": user.district,
+            "preferred_language": user.preferred_language
+        }
+    }

@@ -13,7 +13,7 @@ from app.routers.contact import router as contact_router
 from app.scheduler.email_scheduler import start_scheduler
 
 
-# Create tables
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="RubberSmart API", version="1.0")
@@ -29,7 +29,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers
+
 app.include_router(auth.router)
 app.include_router(production.router, prefix="/api/production", tags=["Production"])
 app.include_router(prices.router, prefix="/api/prices", tags=["Prices"])
@@ -55,8 +55,8 @@ def root():
     }
 
 @app.get("/api/production")
-def get_production(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    production = db.query(Production).offset(skip).limit(limit).all()
+def get_production(db: Session = Depends(get_db)):
+    production = db.query(Production).all()
     return production
 
 @app.get("/api/prices")

@@ -1,6 +1,6 @@
-// src/pages/dashboard/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import styles from './Dashboard.module.css';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -24,7 +24,7 @@ const Dashboard = () => {
       setLoading(true);
       setError(null);
 
-      // Fetch multiple endpoints in parallel
+     
       const [productionRes, pricesRes, yieldPredRes, pricePredRes] = await Promise.all([
         fetch('http://localhost:8000/api/production?skip=0&limit=12'),
         fetch('http://localhost:8000/api/prices?skip=0&limit=1'),
@@ -41,28 +41,28 @@ const Dashboard = () => {
       const yieldPred = await yieldPredRes.json();
       const pricePred = await pricePredRes.json();
 
-      // Sort production by year/month to get most recent
+     
       const sortedProduction = production.sort((a, b) => {
         if (b.Year !== a.Year) return b.Year - a.Year;
         const months = ['January', 'February', 'March', 'April', 'May', 'June',
-                       'July', 'August', 'September', 'October', 'November', 'December'];
+          'July', 'August', 'September', 'October', 'November', 'December'];
         return months.indexOf(b.Month) - months.indexOf(a.Month);
       });
 
-      // Calculate statistics
+     
       const latestProduction = sortedProduction[0];
       const totalYield = latestProduction?.['Total (MT)'] || 0;
       const avgYield = production.length > 0
         ? production.reduce((sum, p) => sum + (p['Total (MT)'] || 0), 0) / production.length
         : 0;
 
-      const currentPrice = prices[0]?.['Price per Liter (LKR)'] || 
-                          prices[0]?.Price_per_Liter_LKR || 0;
+      const currentPrice = prices[0]?.['Price per Liter (LKR)'] ||
+        prices[0]?.Price_per_Liter_LKR || 0;
 
-      // Calculate trend (compare latest with previous month)
+     
       const yieldTrend = sortedProduction.length > 1
-        ? ((sortedProduction[0]['Total (MT)'] - sortedProduction[1]['Total (MT)']) / 
-           sortedProduction[1]['Total (MT)'] * 100)
+        ? ((sortedProduction[0]['Total (MT)'] - sortedProduction[1]['Total (MT)']) /
+          sortedProduction[1]['Total (MT)'] * 100)
         : 0;
 
       setStats({
@@ -87,7 +87,7 @@ const Dashboard = () => {
   if (loading) {
     return (
       <div style={{ padding: '2rem', textAlign: 'center' }}>
-        <p style={{ fontSize: '2rem', marginBottom: '1rem' }}>⏳</p>
+        <p style={{ fontSize: '2rem', marginBottom: '1rem' }}></p>
         <p style={{ color: '#666' }}>Loading dashboard...</p>
       </div>
     );
@@ -96,188 +96,116 @@ const Dashboard = () => {
   if (error) {
     return (
       <div style={{ padding: '2rem' }}>
-        <div style={{ 
-          padding: '1rem', 
-          background: '#fee2e2', 
-          color: '#991b1b', 
+        <div style={{
+          padding: '1rem',
+          background: '#fee2e2',
+          color: '#991b1b',
           borderRadius: '0.5rem',
           border: '1px solid #ef4444'
         }}>
-          ⚠️ {error}
+          {error}
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
-      <div style={{ marginBottom: '2rem' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
-          Welcome back, {user?.name || 'User'}! 👋
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>
+          Welcome back, {user?.name || 'User'}!
         </h1>
-        <p style={{ color: '#666' }}>
+        <p className={styles.subtitle}>
           Here's what's happening with Sri Lankan rubber production
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-        gap: '1.5rem',
-        marginBottom: '2rem'
-      }}>
-        {/* Latest Production */}
-        <div style={{ 
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          padding: '1.5rem', 
-          borderRadius: '0.75rem', 
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          color: 'white'
-        }}>
-          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🌱</div>
-          <h3 style={{ fontSize: '0.875rem', marginBottom: '0.5rem', opacity: 0.9 }}>
-            Latest Production
-          </h3>
-          <p style={{ fontSize: '1.875rem', fontWeight: 'bold', margin: '0.5rem 0' }}>
+      <div className={styles.grid}>
+       
+        <div className={styles.cardGradient}>
+          <div className={styles.icon}></div>
+          <h3 className={styles.cardTitleLight}>Latest Production</h3>
+          <p className={styles.cardValueLight}>
             {stats.totalYield.toLocaleString()} MT
           </p>
-          <span style={{ fontSize: '0.875rem', opacity: 0.9 }}>
-            {stats.latestMonth}
-          </span>
+          <span className={styles.subTextLight}>{stats.latestMonth}</span>
+
           {stats.yieldTrend !== undefined && (
-            <div style={{ marginTop: '0.5rem', fontSize: '0.875rem' }}>
-              {stats.yieldTrend > 0 ? '↗' : stats.yieldTrend < 0 ? '↘' : '→'} 
-              {' '}{Math.abs(stats.yieldTrend).toFixed(1)}% vs previous month
+            <div className={styles.trend}>
+              {stats.yieldTrend > 0 ? '↗' : stats.yieldTrend < 0 ? '↘' : '→'}
+              {' '}{Math.abs(stats.yieldTrend).toFixed(1)}%
             </div>
           )}
         </div>
 
-        {/* Current Price */}
-        <div style={{ 
-          background: 'white', 
-          padding: '1.5rem', 
-          borderRadius: '0.75rem', 
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-          border: '1px solid #e5e7eb'
-        }}>
-          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>💰</div>
-          <h3 style={{ color: '#666', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-            Current Price
-          </h3>
-          <p style={{ fontSize: '1.875rem', fontWeight: 'bold', color: '#1f2937', margin: '0.5rem 0' }}>
+        
+        <div className={styles.card}>
+          <div className={styles.icon}></div>
+          <h3 className={styles.cardTitle}>Current Price</h3>
+          <p className={styles.cardValue}>
             LKR {stats.currentPrice.toFixed(2)}
           </p>
-          <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>per Liter</span>
+          <span className={styles.subText}>per Liter</span>
         </div>
 
-        {/* Average Production */}
-        <div style={{ 
-          background: 'white', 
-          padding: '1.5rem', 
-          borderRadius: '0.75rem', 
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-          border: '1px solid #e5e7eb'
-        }}>
-          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📊</div>
-          <h3 style={{ color: '#666', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-            12-Month Average
-          </h3>
-          <p style={{ fontSize: '1.875rem', fontWeight: 'bold', color: '#1f2937', margin: '0.5rem 0' }}>
+        
+        <div className={styles.card}>
+          <div className={styles.icon}></div>
+          <h3 className={styles.cardTitle}>12-Month Average</h3>
+          <p className={styles.cardValue}>
             {stats.avgYield.toFixed(0)} MT
           </p>
-          <span style={{ color: '#6b7280', fontSize: '0.875rem' }}>monthly average</span>
+          <span className={styles.subText}>monthly average</span>
         </div>
 
-        {/* Next Month Prediction */}
-        <div style={{ 
-          background: 'white', 
-          padding: '1.5rem', 
-          borderRadius: '0.75rem', 
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-          border: '1px solid #e5e7eb'
-        }}>
-          <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🔮</div>
-          <h3 style={{ color: '#666', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
-            Next Month Forecast
-          </h3>
-          <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#1f2937', margin: '0.5rem 0' }}>
+       
+        <div className={styles.card}>
+          <div className={styles.icon}></div>
+          <h3 className={styles.cardTitle}>Next Month Forecast</h3>
+          <p className={styles.cardValue}>
             {stats.predictedYield.toLocaleString()} MT
           </p>
-          <span style={{ color: '#10b981', fontSize: '0.875rem' }}>
+          <span className={styles.greenText}>
             @ LKR {stats.predictedPrice.toFixed(2)}/L
           </span>
         </div>
       </div>
 
-      {/* Recent Production Trend */}
-      <div style={{ 
-        background: 'white', 
-        padding: '1.5rem', 
-        borderRadius: '0.75rem', 
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        border: '1px solid #e5e7eb',
-        marginBottom: '2rem'
-      }}>
-        <h2 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-          Recent Production Trend
-        </h2>
-        
-        {stats.recentProduction && stats.recentProduction.length > 0 ? (
-          <div style={{ overflowX: 'auto' }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      
+      <div className={styles.section}>
+        <h2 className={styles.sectionTitle}>Recent Production Trend</h2>
+
+        {stats.recentProduction?.length > 0 ? (
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
               <thead>
-                <tr style={{ background: '#f9fafb', borderBottom: '2px solid #e5e7eb' }}>
-                  <th style={{ padding: '0.75rem', textAlign: 'left', fontSize: '0.875rem', fontWeight: '600' }}>
-                    Period
-                  </th>
-                  <th style={{ padding: '0.75rem', textAlign: 'right', fontSize: '0.875rem', fontWeight: '600' }}>
-                    Total Production (MT)
-                  </th>
-                  <th style={{ padding: '0.75rem', textAlign: 'right', fontSize: '0.875rem', fontWeight: '600' }}>
-                    Sheet
-                  </th>
-                  <th style={{ padding: '0.75rem', textAlign: 'right', fontSize: '0.875rem', fontWeight: '600' }}>
-                    Crepe TSR
-                  </th>
-                  <th style={{ padding: '0.75rem', textAlign: 'right', fontSize: '0.875rem', fontWeight: '600' }}>
-                    Trend
-                  </th>
+                <tr>
+                  <th>Period</th>
+                  <th className={styles.right}>Total (MT)</th>
+                  <th className={styles.right}>Sheet</th>
+                  <th className={styles.right}>Crepe TSR</th>
+                  <th className={styles.right}>Trend</th>
                 </tr>
               </thead>
               <tbody>
                 {stats.recentProduction.map((prod, index) => {
-                  const prevProd = index < stats.recentProduction.length - 1 
-                    ? stats.recentProduction[index + 1] 
-                    : null;
-                  const change = prevProd 
-                    ? ((prod['Total (MT)'] - prevProd['Total (MT)']) / prevProd['Total (MT)'] * 100)
+                  const prev = stats.recentProduction[index + 1];
+                  const change = prev
+                    ? ((prod['Total (MT)'] - prev['Total (MT)']) / prev['Total (MT)'] * 100)
                     : 0;
 
                   return (
-                    <tr key={index} style={{ 
-                      borderBottom: '1px solid #f3f4f6',
-                      background: index % 2 === 0 ? 'white' : '#fafafa'
-                    }}>
-                      <td style={{ padding: '0.75rem', fontWeight: '500' }}>
-                        {prod.Month} {prod.Year}
-                      </td>
-                      <td style={{ padding: '0.75rem', textAlign: 'right', fontWeight: 'bold' }}>
-                        {prod['Total (MT)']?.toLocaleString()}
-                      </td>
-                      <td style={{ padding: '0.75rem', textAlign: 'right' }}>
-                        {prod.Sheet?.toLocaleString()}
-                      </td>
-                      <td style={{ padding: '0.75rem', textAlign: 'right' }}>
-                        {prod['Crepe T.S.R.']?.toLocaleString()}
-                      </td>
-                      <td style={{ padding: '0.75rem', textAlign: 'right' }}>
+                    <tr key={index} className={index % 2 ? styles.rowAlt : ''}>
+                      <td>{prod.Month} {prod.Year}</td>
+                      <td className={styles.right}>{prod['Total (MT)']?.toLocaleString()}</td>
+                      <td className={styles.right}>{prod.Sheet?.toLocaleString()}</td>
+                      <td className={styles.right}>{prod['Crepe T.S.R.']?.toLocaleString()}</td>
+                      <td className={styles.right}>
                         {index < stats.recentProduction.length - 1 && (
-                          <span style={{ 
-                            color: change > 0 ? '#10b981' : change < 0 ? '#ef4444' : '#6b7280',
-                            fontSize: '0.875rem',
-                            fontWeight: '500'
-                          }}>
+                          <span className={
+                            change > 0 ? styles.green :
+                              change < 0 ? styles.red : styles.gray
+                          }>
                             {change > 0 ? '↗' : change < 0 ? '↘' : '→'} {Math.abs(change).toFixed(1)}%
                           </span>
                         )}
@@ -289,61 +217,25 @@ const Dashboard = () => {
             </table>
           </div>
         ) : (
-          <p style={{ color: '#666', textAlign: 'center', padding: '2rem' }}>
-            No recent production data available
-          </p>
+          <p className={styles.empty}>No data available</p>
         )}
       </div>
 
-      {/* Quick Actions */}
-      <div style={{ 
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '1rem'
-      }}>
-        <a href="/dashboard/yield-prediction" style={{ textDecoration: 'none' }}>
-          <div style={{
-            background: 'white',
-            padding: '1.5rem',
-            borderRadius: '0.75rem',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-            border: '1px solid #e5e7eb',
-            cursor: 'pointer',
-            transition: 'all 0.2s'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-          onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-          >
-            <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🌱</div>
-            <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#1f2937', marginBottom: '0.25rem' }}>
-              Yield Predictions
-            </h3>
-            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>
-              View AI-powered production forecasts
-            </p>
+      {/* Actions */}
+      <div className={styles.actionsGrid}>
+        <a href="/dashboard/yield-prediction">
+          <div className={styles.actionCard}>
+            <div className={styles.icon}></div>
+            <h3>Yield Predictions/අස්වැන්න අනාවැකි</h3>
+            <p>View AI-powered production forecasts</p>
           </div>
         </a>
 
-        <a href="/dashboard/price-intelligence" style={{ textDecoration: 'none' }}>
-          <div style={{
-            background: 'white',
-            padding: '1.5rem',
-            borderRadius: '0.75rem',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-            border: '1px solid #e5e7eb',
-            cursor: 'pointer',
-            transition: 'all 0.2s'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-          onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-          >
-            <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>💰</div>
-            <h3 style={{ fontSize: '1rem', fontWeight: '600', color: '#1f2937', marginBottom: '0.25rem' }}>
-              Price Intelligence
-            </h3>
-            <p style={{ fontSize: '0.875rem', color: '#6b7280' }}>
-              Explore market price forecasts
-            </p>
+        <a href="/dashboard/price-intelligence">
+          <div className={styles.actionCard}>
+            <div className={styles.icon}></div>
+            <h3>Price Intelligence</h3>
+            <p>Explore market price forecasts</p>
           </div>
         </a>
       </div>

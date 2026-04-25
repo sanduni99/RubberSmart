@@ -1,4 +1,4 @@
-// src/components/dashboard/AppSidebar.jsx
+
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -10,6 +10,7 @@ import {
   CSidebarToggler,
 } from '@coreui/react'
 import { AppSidebarNav } from './AppSidebarNav'
+import { useAuth } from '../../contexts/AuthContext';
 
 // Your navigation config
 import navigation from './navConfig.jsx'
@@ -18,6 +19,7 @@ const AppSidebar = () => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const { user } = useAuth(); 
 
   return (
     <CSidebar
@@ -45,7 +47,7 @@ const AppSidebar = () => {
         />
       </CSidebarHeader>
       
-      <AppSidebarNav items={navigation} />
+      <AppSidebarNav items={navigation(user)} />
       
       <CSidebarFooter className="border-top d-none d-lg-flex">
         <CSidebarToggler

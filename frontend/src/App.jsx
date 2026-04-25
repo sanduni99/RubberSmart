@@ -1,4 +1,4 @@
-// src/App.jsx
+
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
@@ -23,6 +23,7 @@ import ForgotPassword from './pages/auth/ForgotPassword';
 import ResetPassword from './pages/auth/ResetPassword';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import Users from "./pages/admin/Users";
+import AdminRoute from './components/AdminRoute';
 // Dashboard pages
 import Dashboard from './pages/dashboard/Dashboard';
 import YieldPrediction from './pages/dashboard/YieldPrediction';
@@ -35,7 +36,6 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          {/* Public Website Routes */}
           <Route path="/" element={<WebsiteLayout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
@@ -44,24 +44,25 @@ function App() {
             <Route path="contact" element={<Contact />} />
           </Route>
 
-          {/* Auth Routes */}
+        
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-         <Route
-  path="/admin/dashboard"
+       <Route
+  path="/admin"
   element={
-    <ProtectedRoute>
+    <AdminRoute>
       <DashboardLayout />
-    </ProtectedRoute>
+    </AdminRoute>
   }
 >
-  <Route index element={<AdminDashboard />} />
+  <Route path="dashboard" element={<AdminDashboard />} />
+  <Route path="users" element={<Users />} />
 </Route>
-<Route path="/admin/users" element={<Users />} />
 
-          {/* Protected Dashboard Routes */}
+
+
           <Route 
             path="/dashboard" 
             element={
@@ -76,7 +77,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
           </Route>
 
-          {/* Catch all */}
+
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

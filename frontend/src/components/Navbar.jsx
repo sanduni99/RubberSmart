@@ -1,4 +1,4 @@
-// src/components/Navbar.jsx
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -64,7 +64,7 @@ const Navbar = () => {
           <LanguageDropdown />
         </div>
 
-        {/* Hamburger for mobile */}
+
         <div className={styles.hamburger} onClick={toggleMenu}>
           <span></span>
           <span></span>
@@ -72,7 +72,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu - FIX: Use template literal correctly */}
+
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.active : ''}`}>
         <Link to="/" className={styles.navLink} onClick={toggleMenu}>Home</Link>
         <Link to="/about" className={styles.navLink} onClick={toggleMenu}>About</Link>

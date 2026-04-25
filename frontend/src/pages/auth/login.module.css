@@ -201,13 +201,13 @@ width: 100%;
 }
 
 
-/* MEDIA QUERIES FOR RESPONSIVENESS */
+
 
 @media (max-width: 1024px) {
   .formWrapper {
     display: grid;
-    grid-template-columns: 1fr; /* Stack left and right panels */
-    width: 550px; /* Keep the width for tablets */
+    grid-template-columns: 1fr; 
+    width: 550px; 
   }
 
   .rightPanel {
@@ -222,7 +222,7 @@ width: 100%;
 
 @media (max-width: 768px) {
   .formWrapper {
-    width: 95%; /* Allow small screens to use almost full width */
+    width: 95%; 
   }
 
   .rightPanel {

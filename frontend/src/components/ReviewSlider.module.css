@@ -1,4 +1,4 @@
-/* ================= REVIEW SLIDER ================= */
+
 
 .reviewSliderWrapper {
   max-width: 650px;
@@ -23,7 +23,7 @@
 
 .reviewName {
   font-weight: 600;
-  color: #1b5e20; /* Rubber green */
+  color: #1b5e20; 
   font-size: 16px;
 }
 

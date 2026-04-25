@@ -23,10 +23,20 @@ i18n.use(initReactI18next).init({
       about: await fetch("/locales/si/about.json").then(res => res.json()),
       features: await fetch("/locales/si/features.json").then(res => res.json()),
       tapping: await fetch("/locales/si/tapping.json").then(res => res.json()),
-      footer: await fetch("/locales/en/footer.json").then(res => res.json()),
+      footer: await fetch("/locales/si/footer.json").then(res => res.json()),
       navbar: await fetch("/locales/si/navbar.json").then(res => res.json()),
-      signup: await fetch("/locales/en/signup.json").then(res => res.json()),
-      login: await fetch("/locales/en/login.json").then(res => res.json()),
+      signup: await fetch("/locales/si/signup.json").then(res => res.json()),
+      login: await fetch("/locales/si/login.json").then(res => res.json()),
+    },
+   ta: {
+      home: await fetch("/locales/ta/home.json").then(res => res.json()),
+      about: await fetch("/locales/ta/about.json").then(res => res.json()),
+      features: await fetch("/locales/ta/features.json").then(res => res.json()),
+      tapping: await fetch("/locales/ta/tapping.json").then(res => res.json()),
+      footer: await fetch("/locales/ta/footer.json").then(res => res.json()),
+      navbar: await fetch("/locales/ta/navbar.json").then(res => res.json()),
+      signup: await fetch("/locales/ta/signup.json").then(res => res.json()),
+      login: await fetch("/locales/ta/login.json").then(res => res.json()),
     }
   }
 });

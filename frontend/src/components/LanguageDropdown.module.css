@@ -20,8 +20,8 @@
   background: white;
   border-radius: 10px;
   box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-  overflow: visible;  /* allow dropdown content to show */
-  z-index: 1000;      /* on top of everything */
+  overflow: visible; 
+  z-index: 1000;     
 }
 
 .dropdown button {

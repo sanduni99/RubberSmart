@@ -23,17 +23,17 @@ for table_name in tables_df['table_name']:
     
     print(f"\n Total rows: {len(df)}")
     print(f" Columns: {list(df.columns)}")
-    print("\n🔍 First 5 rows:")
+    print("\n First 5 rows:")
     print(df.head())
     
-    print("\n❓ Null values:")
+    print("\n Null values:")
     null_counts = df.isnull().sum()
     if null_counts.sum() > 0:
         print(null_counts[null_counts > 0])
     else:
-        print("   ✅ No null values")
+        print("    No null values")
         
-        print("\n📊 Data types:")
+        print("\n Data types:")
     print(df.dtypes)
     
     print("-"*60)

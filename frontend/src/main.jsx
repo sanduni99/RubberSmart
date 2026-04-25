@@ -6,11 +6,11 @@ import { AuthProvider } from './contexts/AuthContext';
 import store from './store/store';
 import "./i18n";
 
-// CoreUI Styles
+
 import '@coreui/coreui/dist/css/coreui.min.css'
 import 'simplebar-react/dist/simplebar.min.css'
 
-// Your styles
+
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(

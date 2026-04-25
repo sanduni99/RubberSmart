@@ -29,9 +29,7 @@ const fetchUsers = async () => {
   }
 };
 
-//   const editUser = (id)=>{
-//    navigate(`/admin/users/edit/${id}`)
-// }
+
 
 const deleteUser = async(id)=>{
 
@@ -99,12 +97,6 @@ const changeRole = async(id, role)=>{
 
         <td className={styles.actions}>
 
-  {/* <button
-    className={styles.editBtn}
-    onClick={() => editUser(u.id)}
-  >
-    Edit
-  </button> */}
 
   <button
     className={styles.deleteBtn}

@@ -1,4 +1,4 @@
-# app/services/email_service.py
+
 
 import smtplib
 from email.mime.text import MIMEText
@@ -21,9 +21,7 @@ def send_email_notification(to_email: str, subject: str, message: str):
     """
 
     try:
-        # ===============================
-        # Load SMTP Config
-        # ===============================
+
         smtp_host = os.getenv('SMTP_HOST', 'smtp.gmail.com')
         smtp_port = int(os.getenv('SMTP_PORT', 587))
         smtp_user = os.getenv('SMTP_USERNAME')
@@ -31,29 +29,22 @@ def send_email_notification(to_email: str, subject: str, message: str):
         from_email = os.getenv('SMTP_FROM_EMAIL')
         from_name = os.getenv('SMTP_FROM_NAME', 'RubberSmart')
 
-        # ===============================
-        # Validate Credentials
-        # ===============================
+
         if not all([smtp_user, smtp_pass, from_email]):
-            logger.error("❌ Missing SMTP credentials in .env")
+            logger.error(" Missing SMTP credentials in .env")
             return False
 
-        logger.info(f"📧 Sending email to {to_email}")
+        logger.info(f" Sending email to {to_email}")
 
-        # ===============================
-        # Create Email Message
-        # ===============================
+
         msg = MIMEMultipart('alternative')
         msg['From'] = f"{from_name} <{from_email}>"
         msg['To'] = to_email
         msg['Subject'] = subject
 
-        # Plain Text Version (Fallback)
+
         plain_text = message.replace("<br>", "\n")
 
-        # ===============================
-        # HTML Email Template
-        # ===============================
         html_body = f"""
         <!DOCTYPE html>
         <html>
@@ -99,40 +90,35 @@ def send_email_notification(to_email: str, subject: str, message: str):
         </html>
         """
 
-        # Attach both versions
         msg.attach(MIMEText(plain_text, 'plain'))
         msg.attach(MIMEText(html_body, 'html'))
 
-        # ===============================
-        # Send Email
-        # ===============================
+
         with smtplib.SMTP(smtp_host, smtp_port, timeout=15) as server:
             server.starttls()
             server.login(smtp_user, smtp_pass)
             server.send_message(msg)
 
-        logger.info(f"✅ Email sent successfully to {to_email}")
+        logger.info(f" Email sent successfully to {to_email}")
         return True
 
     except smtplib.SMTPAuthenticationError as e:
-        logger.error(f"❌ SMTP Authentication failed: {str(e)}")
+        logger.error(f" SMTP Authentication failed: {str(e)}")
         return False
 
     except Exception as e:
-        logger.error(f"❌ Email sending failed: {str(e)}")
+        logger.error(f" Email sending failed: {str(e)}")
         return False
 
 
-# =====================================================
-# PRICE ALERT EMAIL
-# =====================================================
+
 
 def send_price_alert_email(user_email: str, alert_data: dict):
     """
     Send formatted market price alert email (No rubber type)
     """
 
-    subject = f"🔔 Rubber Market Price Alert!"
+    subject = f" Rubber Market Price Alert!"
 
     message = f"""
 <strong style="font-size:18px;color:#667eea;">Rubber Market Price Alert</strong><br><br>
@@ -163,7 +149,7 @@ Price went <strong>{alert_data['alert_type']}</strong> your target
 <br>
 
 <div style="padding:15px;background:#fef3c7;border-left:4px solid #f59e0b;">
-<strong>💡 Recommendation:</strong><br>
+<strong> Recommendation:</strong><br>
 The market price has {'exceeded' if alert_data['alert_type']=='above' else 'fallen below'} your target.
 This might be a good time to {'sell your rubber' if alert_data['alert_type']=='above' else 'monitor the market closely'}.
 </div>

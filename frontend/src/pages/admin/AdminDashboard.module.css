@@ -10,7 +10,7 @@
   margin-bottom: 30px;
 }
 
-/* Desktop */
+
 .cardGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -47,7 +47,7 @@
   border-radius: 12px;
 }
 
-/* Email section */
+
 .emailBox{
   margin-top:40px;
   background:white;

@@ -12,7 +12,7 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = "postgresql://postgres:admin123@localhost/rubbersmart"
 engine = create_engine(DATABASE_URL)
 
 print("="*60)
@@ -20,38 +20,36 @@ print("FUTURE PRICE PREDICTION MODEL (2024-2030)")
 
 print("="*60)
 
-# Load data
-print("\n📊 Loading price data...")
+
+print("\n Loading price data...")
 df = pd.read_sql("SELECT * FROM prices ORDER BY \"Year\", id", engine)
 print(f"   Total records: {len(df)}")
 
-# Prepare data
-print("\n🔧 Preparing data...")
+
+print("\n Preparing data...")
 df['Year'] = df['Year'].astype(float).astype(int)
 df['Month'] = df['Month'].astype(str).str.strip()
 df = df[df['Year'] >= 1900]
 
-# Create Date
+
 df['Date'] = pd.to_datetime(df['Year'].astype(str) + '-' + df['Month'], format='%Y-%B', errors='coerce')
 df = df.dropna(subset=['Date'])
 df = df.sort_values('Date')
 df.set_index('Date', inplace=True)
 
-# Use Price per Liter as target
+
 y = df['Price per Liter (LKR)']
 y = y.dropna()
 
 current_price = y.iloc[-1]
 last_date = y.index[-1]
 
-print(f"\n💰 CURRENT MARKET (Last data point):")
+print(f"\n CURRENT MARKET (Last data point):")
 print(f"   Date: {last_date.strftime('%B %Y')}")
 print(f"   Price: {current_price:.2f} LKR")
 
-# Advanced trend analysis for long-term forecasting
-print(f"\n📈 HISTORICAL TREND ANALYSIS FOR LONG-TERM FORECASTING:")
+print(f"\n HISTORICAL TREND ANALYSIS FOR LONG-TERM FORECASTING:")
 
-# Calculate different growth periods
 periods = {
     "Recent (1 year)": 12,
     "Short-term (3 years)": 36,
@@ -70,16 +68,16 @@ for period_name, months in periods.items():
         growth_rates[period_name] = annual_growth
         print(f"   {period_name}: {annual_growth:.2f}% annual")
 
-# Calculate weighted growth rate with more weight to medium/long-term
+
 weights = {
-    "Recent (1 year)": 0.10,      # Less weight to recent volatility
-    "Short-term (3 years)": 0.20,  # Moderate weight
-    "Medium-term (5 years)": 0.30, # More weight - stable trend
-    "Long-term (10 years)": 0.25,  # Good weight for stability
-    "Very long-term (20 years)": 0.15  # Some weight for long-term pattern
+    "Recent (1 year)": 0.10,      
+    "Short-term (3 years)": 0.20,  
+    "Medium-term (5 years)": 0.30, 
+    "Long-term (10 years)": 0.25,  
+    "Very long-term (20 years)": 0.15  
 }
 
-# Use only available periods
+
 available_weights = {k: v for k, v in weights.items() if k in growth_rates}
 if available_weights:
     total_weight = sum(available_weights.values())
@@ -87,10 +85,10 @@ if available_weights:
     
     weighted_growth = sum(growth_rates[k] * normalized_weights[k] for k in available_weights.keys())
 else:
-    # Default conservative growth if no data
+
     weighted_growth = 2.0
 
-print(f"\n📊 Selected long-term growth rate: {weighted_growth:.2f}% annual")
+print(f"\n Selected long-term growth rate: {weighted_growth:.2f}% annual")
 
 try:
     choice = input("   Select option (1-4): ").strip()
@@ -103,78 +101,76 @@ try:
         years_to_forecast = 7
     elif choice == '4':
         custom_years = int(input("   Enter number of years to forecast: "))
-        years_to_forecast = min(custom_years, 20)  # Limit to 20 years
+        years_to_forecast = min(custom_years, 20) 
     else:
         years_to_forecast = 5  # Default
         
 except:
-    years_to_forecast = 5  # Default on error
+    years_to_forecast = 5  
 
 total_months = years_to_forecast * 12
 
-print(f"\n🔮 GENERATING {years_to_forecast}-YEAR FORECAST ({total_months} months)...")
+print(f"\n GENERATING {years_to_forecast}-YEAR FORECAST ({total_months} months)...")
 
-# Smart growth rate adjustment for very long forecasts
-# Growth tends to slow down over very long periods
+
 if years_to_forecast > 10:
-    # Reduce growth rate for very long forecasts
-    adjusted_growth = weighted_growth * 0.7  # 30% reduction for >10 years
+
+    adjusted_growth = weighted_growth * 0.7 
     print(f"   Note: Adjusted growth to {adjusted_growth:.2f}% for long-term sustainability")
 else:
     adjusted_growth = weighted_growth
 
 monthly_growth_rate = (1 + adjusted_growth/100) ** (1/12)
 
-# Generate predictions
+
 all_predictions = []
 json_predictions = []
 
 for month_offset in range(1, total_months + 1):
     future_date = last_date + relativedelta(months=month_offset)
     
-    # Base price with compound growth
+
     base_price = current_price * (monthly_growth_rate ** month_offset)
     
-    # Add realistic business cycle variations
-    # Rubber prices have ~5-7 year cycles
-    cycle_period = 84  # 7 years in months
+
+    cycle_period = 84  
     cycle_variation = 0.03 * np.sin(2 * np.pi * month_offset / cycle_period)
     
-    # Add seasonal variation
+
     month_num = future_date.month
     seasonal_factor = 1.0
-    if month_num in [1, 2, 11, 12]:  # Peak season
+    if month_num in [1, 2, 11, 12]: 
         seasonal_factor = 1 + 0.02
-    elif month_num in [6, 7, 8]:  # Low season
+    elif month_num in [6, 7, 8]:  
         seasonal_factor = 1 - 0.015
     
-    # Combine all factors
+
     predicted_price = base_price * (1 + cycle_variation) * seasonal_factor
     
-    # Calculate uncertainty - increases with time
+
     years_ahead = month_offset / 12
     if years_ahead <= 2:
-        ci_multiplier = 0.08  # ±8% for 0-2 years
+        ci_multiplier = 0.08  
         confidence = "High"
     elif years_ahead <= 5:
-        ci_multiplier = 0.12  # ±12% for 2-5 years
+        ci_multiplier = 0.12  
         confidence = "Moderate"
     elif years_ahead <= 10:
-        ci_multiplier = 0.18  # ±18% for 5-10 years
+        ci_multiplier = 0.18  
         confidence = "Low"
     else:
-        ci_multiplier = 0.25  # ±25% for >10 years
+        ci_multiplier = 0.25  
         confidence = "Very Low"
     
     lower_bound = predicted_price * (1 - ci_multiplier)
     upper_bound = predicted_price * (1 + ci_multiplier)
     
-    # Ensure realistic bounds
+
     historical_min = y.min()
     historical_max = y.max()
     
-    # For long-term forecasts, allow reasonable expansion beyond historical
-    future_max = historical_max * (1 + (years_ahead * 0.03))  # Allow 3% expansion per year
+
+    future_max = historical_max * (1 + (years_ahead * 0.03))  
     lower_bound = max(lower_bound, historical_min * 0.9)
     upper_bound = min(upper_bound, future_max)
     
@@ -192,7 +188,7 @@ for month_offset in range(1, total_months + 1):
     
     all_predictions.append(prediction_data)
     
-    # Simplified version for JSON
+
     json_predictions.append({
         'month': future_date.strftime('%B'),
         'year': int(future_date.year),
@@ -200,8 +196,8 @@ for month_offset in range(1, total_months + 1):
         'confidence_level': confidence
     })
 
-# Display year-by-year summary
-print(f"\n📅 YEARLY PREDICTION SUMMARY ({last_date.year + 1}-{last_date.year + years_to_forecast}):")
+
+print(f"\n YEARLY PREDICTION SUMMARY ({last_date.year + 1}-{last_date.year + years_to_forecast}):")
 
 yearly_summaries = {}
 for pred in all_predictions:
@@ -217,7 +213,7 @@ for year in sorted(yearly_summaries.keys()):
     min_price = min(prices)
     max_price = max(prices)
     
-    # Find key months
+  
     jan_pred = next((p for p in year_data if p['month'] == 'January'), None)
     jul_pred = next((p for p in year_data if p['month'] == 'July'), None)
     dec_pred = next((p for p in year_data if p['month'] == 'December'), None)
@@ -233,22 +229,22 @@ for year in sorted(yearly_summaries.keys()):
     if dec_pred:
         print(f"     December: {dec_pred['predicted_price']:.2f} LKR")
 
-# Overall statistics
+
 all_pred_prices = [p['predicted_price'] for p in all_predictions]
 overall_avg = np.mean(all_pred_prices)
 overall_min = min(all_pred_prices)
 overall_max = max(all_pred_prices)
 final_growth = ((all_pred_prices[-1] - current_price) / current_price * 100)
 
-print(f"\n📊 {years_to_forecast}-YEAR FORECAST SUMMARY:")
+print(f"\n {years_to_forecast}-YEAR FORECAST SUMMARY:")
 print(f"   Starting price ({last_date.strftime('%B %Y')}): {current_price:.2f} LKR")
 print(f"   Ending price ({all_predictions[-1]['month']} {all_predictions[-1]['year']}): {all_pred_prices[-1]:.2f} LKR")
 print(f"   Projected {years_to_forecast}-year growth: {final_growth:.2f}%")
 print(f"   Total average: {overall_avg:.2f} LKR")
 print(f"   Overall range: {overall_min:.2f} - {overall_max:.2f} LKR")
 
-# Create comprehensive JSON output
-print(f"\n💾 Preparing JSON output for API...")
+
+print(f"\n Preparing JSON output for API...")
 
 model_info = {
     "model_type": "Long-term Trend Projection",
@@ -282,7 +278,7 @@ market_context = {
     ]
 }
 
-# Create the complete JSON structure
+
 json_output = {
     "metadata": {
         "generated_date": pd.Timestamp.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -306,10 +302,10 @@ json_output = {
     }
 }
 
-# Save to multiple formats
+
 save_dir = os.path.join(os.path.dirname(__file__), '..')
 
-# 1. Main JSON file
+
 current_year = last_date.year
 end_year = last_date.year + years_to_forecast
 json_filename = f"price_predictions_{current_year}_{end_year}.json"
@@ -320,7 +316,7 @@ with open(json_path, 'w') as f:
 
 print(f"   ✓ JSON saved: {json_path}")
 
-# 2. Detailed CSV for analysis
+
 csv_filename = f"detailed_price_predictions_{current_year}_{end_year}.csv"
 csv_path = os.path.join(save_dir, csv_filename)
 
@@ -328,7 +324,7 @@ df_predictions = pd.DataFrame(all_predictions)
 df_predictions.to_csv(csv_path, index=False)
 print(f"   ✓ CSV saved: {csv_path}")
 
-# 3. Pickle for Python use
+
 pkl_path = os.path.join(save_dir, 'future_price_predictions.pkl')
 with open(pkl_path, 'wb') as f:
     pickle.dump({
@@ -338,29 +334,29 @@ with open(pkl_path, 'wb') as f:
     }, f)
 print(f"   ✓ Pickle saved: {pkl_path}")
 
-# Display sample
-print(f"\n📄 SAMPLE PREDICTIONS (first 6 months):")
+
+print(f"\n SAMPLE PREDICTIONS (first 6 months):")
 sample = json_output['predictions'][:6]
 print(json.dumps({"predictions": sample}, indent=2))
 
-print(f"\n📋 MODEL CHARACTERISTICS:")
+print(f"\n MODEL CHARACTERISTICS:")
 print(f"   • Forecast horizon: {years_to_forecast} years ({total_months} months)")
 print(f"   • Growth rate: {adjusted_growth:.2f}% annual")
 print(f"   • Includes: Seasonal patterns + Business cycles")
 print(f"   • Confidence: Decreases with forecast horizon")
 print(f"   • Data points: {len(json_predictions)} monthly predictions")
 
-print(f"\n🎯 BUSINESS APPLICATION:")
+print(f"\n BUSINESS APPLICATION:")
 print(f"   • Use for: Long-term planning, investment decisions")
 print(f"   • Best for: {years_to_forecast}-year strategic planning")
 print(f"   • Update: Recommended annually or when market conditions change")
 
 print("\n" + "="*60)
-print(f"✅ {years_to_forecast}-YEAR PRICE FORECAST COMPLETE!")
+print(f" {years_to_forecast}-YEAR PRICE FORECAST COMPLETE!")
 print("="*60)
 
-# Show quick access info
-print(f"\n🔗 QUICK ACCESS:")
+
+print(f"\n QUICK ACCESS:")
 print(f"   JSON API data: {json_path}")
 print(f"   Detailed data: {csv_path}")
 print(f"   Years covered: {current_year+1} to {end_year}")

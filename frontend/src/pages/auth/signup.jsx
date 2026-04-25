@@ -1,4 +1,4 @@
-// src/pages/auth/Signup.jsx
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -21,32 +21,26 @@ const Signup = () => {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+  e.preventDefault();
+  setError(null);
 
-    try {
-      const res = await authApi.signup({
-        name,
-        email,
-        password,
-        district,
-        phone,
-        preferred_language: preferredLanguage
-      });
+  try {
+    const data = await authApi.signup({
+      name,
+      email,
+      password,
+      district,
+      phone,
+      preferred_language: preferredLanguage
+    });
 
-      const data = await res.json();
+    login(data.access_token, data.user);
+    navigate('/dashboard');
 
-      if (!res.ok) {
-        throw new Error(data.detail || "Signup failed");
-      }
-
-      login(data.access_token);
-      navigate('/dashboard');
-
-    } catch (err) {
-      setError(err.message || "Signup failed");
-    }
-  };
+  } catch (err) {
+    setError(err.message || "Signup failed");
+  }
+};
 
 
   const handleClose = () => {
